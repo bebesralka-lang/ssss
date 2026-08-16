@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Интерактивная площадка</title>
     <style>
-        /* ===== БАЗА ===== */
         * {
             margin: 0;
             padding: 0;
@@ -21,6 +20,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
 
         /* ===== ФОНОВОЕ ФОТО ===== */
@@ -31,7 +31,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('fon.jpg');
+            background-image: url('fon.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -39,7 +39,7 @@
             z-index: 0;
         }
 
-        /* ===== СЕТКА 6 КОЛОНОК ===== */
+        /* ===== ОСНОВНАЯ СЕТКА 6 КОЛОНОК ===== */
         .grid {
             max-width: 1400px;
             width: 100%;
@@ -122,7 +122,7 @@
             font-size: 1.1rem;
             font-weight: bold;
             color: #fff;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             margin-bottom: 4px;
         }
 
@@ -136,8 +136,8 @@
             width: 100%;
         }
         .interactive button {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 30px;
             padding: 4px 14px;
             color: #fff;
@@ -148,7 +148,7 @@
             white-space: nowrap;
         }
         .interactive button:hover {
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             transform: scale(1.02);
         }
         .interactive .value {
@@ -194,8 +194,8 @@
             margin: 0 auto;
         }
         .puzzle-cell {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 6px;
             padding: 6px 0;
             text-align: center;
@@ -205,10 +205,10 @@
             transition: 0.2s;
         }
         .puzzle-cell:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
         }
         .puzzle-cell.done {
-            background: rgba(255,215,0,0.1);
+            background: rgba(255, 215, 0, 0.1);
             border-color: #f5d76e;
         }
 
@@ -245,16 +245,16 @@
             font-style: italic;
             color: #f7b1ca;
             padding: 4px 8px;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.02);
+            border: 1px solid rgba(255, 255, 255, 0.02);
             max-width: 160px;
             word-wrap: break-word;
             cursor: pointer;
             transition: 0.3s;
         }
         .lyric-box:hover {
-            background: rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.04);
         }
 
         /* ===== РИСОВАЛКА ===== */
@@ -263,16 +263,16 @@
             max-width: 120px;
             aspect-ratio: 1 / 1;
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.04);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             overflow: hidden;
-            background: rgba(0,0,0,0.1);
+            background: rgba(0, 0, 0, 0.1);
             cursor: pointer;
         }
         .canvas-container canvas {
             width: 100%;
             height: 100%;
             display: block;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
         }
 
         /* ===== ШАРИКИ ===== */
@@ -338,7 +338,7 @@
             color: #f7b1ca;
             min-height: 30px;
             padding: 4px 8px;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 12px;
         }
 
@@ -350,15 +350,64 @@
             min-height: 30px;
         }
 
+        /* ===== НОВЫЙ БЛОК: ИДЕИ ДЛЯ ФОТО ===== */
+        .photo-ideas-grid {
+            max-width: 1400px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 16px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .photo-idea-block {
+            background: rgba(77, 61, 61, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 14px 12px 16px;
+            border: 2px solid rgba(255, 215, 0, 0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            text-align: center;
+            color: #f0ecec;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+        }
+        .photo-idea-block:hover {
+            transform: scale(1.02);
+            border-color: rgba(255, 215, 0, 0.2);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+        .photo-idea-block .emoji {
+            font-size: 2.2rem;
+        }
+        .photo-idea-block .title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        .photo-idea-block .desc {
+            font-size: 0.65rem;
+            opacity: 0.6;
+        }
+
         /* ===== АДАПТАЦИЯ ===== */
         @media (max-width: 900px) {
-            .grid {
+            .grid,
+            .photo-ideas-grid {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 12px;
             }
         }
         @media (max-width: 550px) {
-            .grid {
+            .grid,
+            .photo-ideas-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
                 padding: 6px;
@@ -375,11 +424,21 @@
                 font-size: 0.6rem;
                 padding: 3px 10px;
             }
+            .photo-idea-block {
+                min-height: 100px;
+                padding: 10px 8px 12px;
+            }
+            .photo-idea-block .emoji {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- ============================================================ -->
+    <!-- ===== ОСНОВНАЯ СЕТКА (9 блоков слева, 9 пустых справа) ===== -->
+    <!-- ============================================================ -->
     <div class="grid">
 
         <!-- ============================================================ -->
@@ -637,7 +696,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- ===== ПУСТЫЕ БЛОКИ (правая сторона) ===== -->
+        <!-- ===== ПУСТЫЕ БЛОКИ (9 штук, справа) ===== -->
         <!-- ============================================================ -->
         <div class="block empty">
             <span style="font-size: 2rem;">🔮</span>
@@ -696,6 +755,104 @@
     </div>
 
     <!-- ============================================================ -->
+    <!-- ===== НОВЫЙ БЛОК: ИДЕИ ДЛЯ ФОТО (6 колонок) ===== -->
+    <!-- ============================================================ -->
+    <div class="photo-ideas-grid">
+
+        <div class="photo-idea-block">
+            <span class="emoji">🌅</span>
+            <span class="title">Закат</span>
+            <span class="desc">фото на фоне заката</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🌃</span>
+            <span class="title">Ночной город</span>
+            <span class="desc">огни, неон, романтика</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🌸</span>
+            <span class="title">Цветущий сад</span>
+            <span class="desc">весна, нежность, аромат</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">☕</span>
+            <span class="title">Кофейня</span>
+            <span class="desc">уют, тепло, беседа</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🎡</span>
+            <span class="title">Парк аттракционов</span>
+            <span class="desc">радость, детство, улыбки</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🌊</span>
+            <span class="title">У воды</span>
+            <span class="desc">река, море, озеро</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🍂</span>
+            <span class="title">Осенний парк</span>
+            <span class="desc">листья, золото, уют</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">❄️</span>
+            <span class="title">Зимняя сказка</span>
+            <span class="desc">снег, мороз, огоньки</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🎭</span>
+            <span class="title">Театр</span>
+            <span class="desc">эмоции, драма, свет</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🏡</span>
+            <span class="title">Домашний уют</span>
+            <span class="desc">плед, чай, свечи</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🚲</span>
+            <span class="title">Прогулка</span>
+            <span class="desc">велосипед, аллея, лето</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🎶</span>
+            <span class="title">Концерт</span>
+            <span class="desc">музыка, свет, драйв</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">📖</span>
+            <span class="title">В библиотеке</span>
+            <span class="desc">книги, тишина, мысли</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🌿</span>
+            <span class="title">Природа</span>
+            <span class="desc">лес, поляна, свежий воздух</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🎬</span>
+            <span class="title">Кино</span>
+            <span class="desc">кадр, атмосфера, стиль</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">💫</span>
+            <span class="title">Вдохновение</span>
+            <span class="desc">мечты, звёзды, планы</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🥂</span>
+            <span class="title">Праздник</span>
+            <span class="desc">бокалы, улыбки, счастье</span>
+        </div>
+        <div class="photo-idea-block">
+            <span class="emoji">🌈</span>
+            <span class="title">Радуга</span>
+            <span class="desc">цвета, радость, красота</span>
+        </div>
+
+    </div>
+
+    <!-- ============================================================ -->
     <!-- ===== СКРИПТЫ ===== -->
     <!-- ============================================================ -->
     <script>
@@ -703,7 +860,6 @@
         // БЛОК 1: ИГРОВОЙ УГОЛОК
         // ================================================================
 
-        // Кубик
         function rollDice(btn) {
             const num = Math.floor(Math.random() * 6) + 1;
             const faces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
@@ -712,27 +868,21 @@
             setTimeout(() => btn.textContent = '🎲 Бросить', 800);
         }
 
-        // Мишень
         let targetScore = 0;
 
         function hitTarget(el) {
             targetScore++;
             el.parentElement.querySelector('#targetScore').textContent = targetScore;
-            const x = Math.random() * 80 + 10;
-            const y = Math.random() * 80 + 10;
             el.style.position = 'relative';
             el.style.left = (Math.random() - 0.5) * 30 + 'px';
             el.style.top = (Math.random() - 0.5) * 30 + 'px';
         }
 
-        // Пазл
-        let puzzleOrder = [];
         let puzzleStep = 0;
 
         function initPuzzle() {
             const cells = document.querySelectorAll('.puzzle-cell');
             const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-            // перемешиваем
             for (let i = nums.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [nums[i], nums[j]] = [nums[j], nums[i]];
@@ -772,7 +922,6 @@
         // БЛОК 2: РОМАНТИКА
         // ================================================================
 
-        // Письмо
         const letters = [
             '💕 Ты — моё вдохновение каждый день.',
             '✨ С тобой я чувствую себя дома.',
@@ -788,7 +937,6 @@
             btn.textContent = '💌 Ещё письмо';
         }
 
-        // Комплимент
         const compliments = [
             'Ты невероятно красива ✨',
             'Твоя улыбка согревает всех ☀️',
@@ -805,7 +953,6 @@
             complimentIndex++;
         }
 
-        // Свечи
         function blowCandle(el) {
             if (!el.classList.contains('extinct')) {
                 el.classList.add('extinct');
@@ -822,7 +969,6 @@
         // БЛОК 3: МУЗЫКА И НАСТРОЕНИЕ
         // ================================================================
 
-        // Плейлист
         function playSong(btn, song) {
             const display = btn.parentElement.querySelector('#songDisplay');
             display.textContent = song + ' ▶️';
@@ -830,14 +976,12 @@
             setTimeout(() => btn.textContent = '▶️', 2000);
         }
 
-        // Настроение
         function updateMood(el) {
             const moods = ['😞', '😐', '🙂', '😊', '🥰'];
             const display = el.parentElement.querySelector('#moodDisplay');
             display.textContent = moods[parseInt(el.value)];
         }
 
-        // Караоке
         const lyrics = [
             '🎤 Ты — моё вдохновение',
             '🎤 С тобой я чувствую себя живым',
@@ -859,7 +1003,6 @@
         // БЛОК 4: ГОЛОВОЛОМКИ
         // ================================================================
 
-        // Загадка
         const riddles = [
             { q: 'Что можно увидеть с закрытыми глазами?', a: 'Сон' },
             { q: 'Что идёт, но никогда не стоит?', a: 'Время' },
@@ -883,7 +1026,6 @@
             }
         });
 
-        // Математика
         let mathAnswer = 0;
 
         function generateMath() {
@@ -905,7 +1047,6 @@
         }
         generateMath();
 
-        // Анаграмма
         const words = ['ЛЮБОВЬ', 'СЧАСТЬЕ', 'НЕЖНОСТЬ', 'РАДОСТЬ', 'ВДОХНОВЕНИЕ'];
         let currentWord = '';
 
@@ -934,7 +1075,6 @@
         // БЛОК 5: ТВОРЧЕСТВО
         // ================================================================
 
-        // Палитра
         const colors = ['#a37c7c', '#907174', '#947c81', '#644446', '#644c44', '#7a6262', '#4c3337', '#4c3c34', '#4d3d3d'];
         let colorIndex = 0;
 
@@ -953,7 +1093,6 @@
             return r + ',' + g + ',' + b;
         }
 
-        // Рисовалка
         const canvas = document.getElementById('drawCanvas');
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
@@ -991,7 +1130,6 @@
         canvas.addEventListener('mouseup', function() { isDrawing = false; });
         canvas.addEventListener('mouseleave', function() { isDrawing = false; });
 
-        // Touch support
         canvas.addEventListener('touchstart', function(e) {
             e.preventDefault();
             const coords = getCanvasCoords(e);
@@ -1013,13 +1151,12 @@
             lastX = coords.x;
             lastY = coords.y;
         });
-        canvas.addEventListener('touchend', function(e) { isDrawing = false; });
+        canvas.addEventListener('touchend', function() { isDrawing = false; });
 
         function clearCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        // Сменить фон
         let bgIndex = 0;
 
         function changeBackground() {
@@ -1036,7 +1173,6 @@
         // БЛОК 6: ПРАЗДНИК
         // ================================================================
 
-        // Лопни шарик
         function popBalloon(el) {
             if (!el.classList.contains('popped')) {
                 el.classList.add('popped');
@@ -1048,7 +1184,6 @@
             }
         }
 
-        // Конфетти
         function launchConfetti() {
             const emojis = ['🎉', '🎊', '✨', '⭐', '🎈', '🎂', '🎁', '💖', '🌟', '🌸', '💗'];
             const container = document.body;
@@ -1079,7 +1214,6 @@
         // БЛОК 7: ВРЕМЯ
         // ================================================================
 
-        // Таймер
         let timerSeconds = 0;
         let timerInterval = null;
         let timerRunning = false;
@@ -1107,7 +1241,6 @@
             updateTimerDisplay();
         }
 
-        // Часы
         function updateClock() {
             const now = new Date();
             const h = String(now.getHours()).padStart(2, '0');
@@ -1118,7 +1251,6 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Дней вместе
         function updateDaysTogether() {
             const start = new Date('2023-10-16');
             const now = new Date();
@@ -1131,7 +1263,6 @@
         // БЛОК 8: ОБЩЕНИЕ
         // ================================================================
 
-        // Обниматор
         let hugCount = 0;
 
         function hug() {
@@ -1144,7 +1275,6 @@
             }, 800);
         }
 
-        // Случайный комплимент
         const randomCompliments = [
             'Ты — само очарование 💕',
             'Твоя улыбка — это магия ✨',
@@ -1158,7 +1288,6 @@
             document.getElementById('randomComplimentDisplay').textContent = text;
         }
 
-        // Подарок
         function openGift(el) {
             const gifts = ['💍', '💐', '🍫', '🧸', '📿', '🕯️'];
             const surprise = gifts[Math.floor(Math.random() * gifts.length)];
@@ -1174,7 +1303,6 @@
         // БЛОК 9: МАГИЯ
         // ================================================================
 
-        // Предсказание
         const fortunes = [
             '🌸 Тебя ждёт большой сюрприз',
             '🌟 Скоро случится что-то чудесное',
@@ -1189,19 +1317,16 @@
             document.getElementById('fortuneDisplay').textContent = '🔮 ' + text;
         }
 
-        // Колесо фортуны
         const wheelResults = ['❤️', '💋', '🎡', '🌙', '💕', '✨'];
 
         function spinWheel() {
             const result = wheelResults[Math.floor(Math.random() * wheelResults.length)];
             document.getElementById('wheelResult').textContent = '🎡 ' + result + '!';
-            // небольшая анимация
             const el = document.getElementById('wheelResult');
             el.style.transform = 'scale(0.8)';
             setTimeout(() => el.style.transform = 'scale(1)', 300);
         }
 
-        // Звезда
         function makeWish(el) {
             const wishes = ['✨ Сбудется!', '⭐ Обязательно!', '💫 Да!', '🌟 Конечно!'];
             const result = wishes[Math.floor(Math.random() * wishes.length)];
@@ -1227,5 +1352,6 @@
 
         console.log('🎉 Интерактивная площадка готова!');
     </script>
+
 </body>
 </html>
