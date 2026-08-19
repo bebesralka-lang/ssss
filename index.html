@@ -3,305 +3,669 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SQST ✦ Интерактивная площадка</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <title>SQST ✦ Сайты-свидания</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
     <style>
-        /* ============================================================
-                   СБРОС И ПЕРЕМЕННЫЕ
-                ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --bg: #1a1818;
-            --card: rgba(30, 30, 38, 0.75);
-            --gold: #c9a96e;
-            --gold-light: #e8d5a3;
-            --gold-glow: rgba(201, 169, 110, 0.08);
-            --text: #f0ece6;
-            --text-muted: #a09888;
-            --border: rgba(201, 169, 110, 0.08);
-            --shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
-            --radius: 28px;
-            --transition: 0.35s ease;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            background: #150e0f;
+            color: #f0ece6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
             min-height: 100vh;
-            padding: 30px 20px;
         }
 
-        /* ============================================================
-                   КОНТЕЙНЕР
-                ============================================================ */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .card {
+            max-width: 1100px;
+            width: 100%;
+            background: #1a1113;
+            border-radius: 32px;
+            padding: 30px 30px 20px;
+            border: 1px solid rgba(201, 169, 110, 0.15);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+            position: relative;
         }
 
-        /* ============================================================
-                   ШАПКА
-                ============================================================ */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 30px;
+            right: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #c9a96e, #e8d5a3, #c9a96e, transparent);
+            opacity: 0.5;
+        }
+
+        /* ===== ШАПКА ===== */
         .header {
-            text-align: center;
-            padding: 30px 20px 10px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            flex-wrap: wrap;
+            gap: 12px;
         }
-        .header .logo {
+
+        .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
+            font-size: 2.6rem;
             font-weight: 700;
-            letter-spacing: 6px;
-            color: var(--text);
+            letter-spacing: 5px;
+            color: #f0ece6;
+            line-height: 1;
         }
-        .header .logo .gold {
-            color: var(--gold);
+        .logo .gold {
+            color: #c9a96e;
         }
-        .header .logo small {
+        .logo small {
             display: block;
             font-family: 'Inter', sans-serif;
-            font-size: 0.65rem;
+            font-size: 0.55rem;
             font-weight: 300;
-            letter-spacing: 5px;
-            color: var(--text-muted);
+            letter-spacing: 4px;
+            color: #a09888;
             text-transform: uppercase;
-            margin-top: -4px;
+            margin-top: 2px;
         }
 
-        .header .subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-top: 8px;
-            font-style: italic;
+        .badge-top {
+            font-size: 0.5rem;
+            font-weight: 500;
+            color: #a09888;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            padding: 4px 16px;
+            border: 1px solid rgba(201, 169, 110, 0.12);
+            border-radius: 30px;
+            background: rgba(201, 169, 110, 0.04);
         }
 
-        /* ============================================================
-                   ОГЛАВЛЕНИЕ (кликабельные якоря)
-                ============================================================ */
-        .toc {
+        /* ===== ГЕРОЙ ===== */
+        .hero {
+            padding: 16px 0 10px;
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px 18px;
-            padding: 16px 10px 10px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--border);
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
         }
-        .toc a {
-            color: var(--text-muted);
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            line-height: 1.05;
+            color: #f0ece6;
+        }
+        .hero h1 .gold {
+            color: #c9a96e;
+        }
+        .hero-sub {
+            color: #a09888;
+            font-size: 0.95rem;
+            font-style: italic;
+            margin-top: 2px;
+        }
+        .hero .btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 28px;
+            background: #c9a96e;
+            color: #150e0f;
+            border-radius: 60px;
             text-decoration: none;
-            font-size: 0.7rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            box-shadow: 0 4px 20px rgba(201, 169, 110, 0.15);
+        }
+        .btn:hover {
+            background: #e8d5a3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(201, 169, 110, 0.25);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid rgba(201, 169, 110, 0.2);
+            color: #f0ece6;
+            box-shadow: none;
+        }
+        .btn-outline:hover {
+            background: rgba(201, 169, 110, 0.06);
+            border-color: #c9a96e;
+        }
+
+        /* ===== ОБО МНЕ ===== */
+        .about {
+            padding: 14px 0 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .about p {
+            color: #a09888;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            max-width: 85%;
+        }
+        .about .gold {
+            color: #c9a96e;
             font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: var(--transition);
-            border-bottom: 2px solid transparent;
-            padding-bottom: 4px;
-        }
-        .toc a:hover {
-            color: var(--gold);
-            border-bottom-color: var(--gold);
-        }
-        .toc .gold {
-            color: var(--gold);
         }
 
-        /* ============================================================
-                   БЛОКИ С ИНТЕРАКТИВАМИ
-                ============================================================ */
-        .section {
-            background: var(--card);
-            backdrop-filter: blur(12px);
-            border-radius: var(--radius);
-            padding: 28px 25px 20px;
-            margin-bottom: 24px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-        .section:hover {
-            border-color: rgba(201, 169, 110, 0.15);
-        }
-
+        /* ===== ЗАГОЛОВКИ РАЗДЕЛОВ ===== */
         .section-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            color: var(--text);
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            font-size: 1.4rem;
+            color: #c9a96e;
+            margin: 10px 0 12px;
+            border-bottom: 1px solid rgba(201, 169, 110, 0.06);
+            padding-bottom: 6px;
         }
+
         .section-title .gold {
-            color: var(--gold);
+            color: #c9a96e;
         }
-        .section-title .icon {
-            font-size: 1.8rem;
-        }
-        .section-title .count {
+        .section-title small {
             font-family: 'Inter', sans-serif;
-            font-size: 0.6rem;
+            font-size: 0.7rem;
+            color: #a09888;
             font-weight: 300;
-            color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.03);
-            padding: 2px 12px;
-            border-radius: 30px;
-            border: 1px solid var(--border);
-            margin-left: auto;
         }
 
-        /* ===== СЕТКА ИНТЕРАКТИВОВ ===== */
-        .grid {
+        /* ===== СЕТКА ЦЕН ===== */
+        .pricing {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
+            padding: 6px 0 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
-
-        .interactive-card {
+        .price-card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 16px;
-            padding: 14px 12px 12px;
+            padding: 16px 16px 14px;
+            transition: 0.3s;
+        }
+        .price-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(201, 169, 110, 0.15);
+            transform: translateY(-3px);
+        }
+        .price-card .name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #f0ece6;
+        }
+        .price-card .price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #c9a96e;
+            font-weight: 600;
+            margin: 4px 0 6px;
+        }
+        .price-card .price small {
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: #a09888;
+        }
+        .price-card .features {
+            list-style: none;
+            font-size: 0.7rem;
+            color: #a09888;
+            line-height: 2;
+        }
+        .price-card .features li::before {
+            content: '✦ ';
+            color: #c9a96e;
+            font-size: 0.6rem;
+        }
+        .price-card .badge-free {
+            display: inline-block;
+            background: rgba(201, 169, 110, 0.08);
+            color: #c9a96e;
+            font-size: 0.5rem;
+            font-weight: 600;
+            padding: 1px 10px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 110, 0.08);
+            margin-left: 4px;
+        }
+        .price-card .badge-price {
+            display: inline-block;
+            background: rgba(201, 169, 110, 0.04);
+            color: #c9a96e;
+            font-size: 0.5rem;
+            font-weight: 600;
+            padding: 1px 10px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 110, 0.06);
+            margin-left: 4px;
+        }
+
+        /* ================================================================ */
+        /* ===== ИНТЕРАКТИВ — АККОРДЕОН ===== */
+        /* ================================================================ */
+        .interactive-block {
+            padding: 8px 0 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        /* КЛИКАБЕЛЬНЫЙ ЗАГОЛОВОК */
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            padding: 4px 0;
+            transition: 0.3s;
+            border-radius: 8px;
+        }
+        .accordion-header:hover {
+            background: rgba(201, 169, 110, 0.03);
+        }
+
+        .accordion-header .section-title {
+            margin: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+            flex: 1;
+        }
+
+        .accordion-icon {
+            font-size: 1.2rem;
+            color: #c9a96e;
+            transition: transform 0.3s ease;
+            margin-left: 12px;
+            flex-shrink: 0;
+        }
+
+        /* КОНТЕНТ БЛОКА (скрывается/показывается) */
+        .accordion-content {
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+            margin-top: 0;
+        }
+
+        .accordion-content.open {
+            max-height: 800px;
+            opacity: 1;
+            margin-top: 8px;
+        }
+
+        .interactive-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .interactive-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 14px 10px;
             text-align: center;
-            transition: var(--transition);
+            transition: 0.3s;
+        }
+        .interactive-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(201, 169, 110, 0.08);
+            transform: translateY(-2px);
+        }
+        .interactive-item .icon {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .interactive-item .label {
+            font-size: 0.7rem;
+            color: #a09888;
+            line-height: 1.3;
+        }
+        .interactive-item .gold {
+            color: #c9a96e;
+            font-weight: 500;
+        }
+        .interactive-item .tooltip {
+            display: block;
+            font-size: 0.5rem;
+            color: #6a6060;
+            margin-top: 2px;
+        }
+        .interactive-item .tooltip::before {
+            content: '➜ ';
+            color: #c9a96e;
+        }
+
+        /* ===== ДОПОЛНИТЕЛЬНЫЕ ФИШКИ ===== */
+        .freebies-block {
+            padding: 8px 0 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .freebies-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 6px;
+        }
+        .free-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 14px 12px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .free-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(201, 169, 110, 0.08);
+        }
+        .free-item .icon {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .free-item .label {
+            font-size: 0.7rem;
+            color: #a09888;
+            line-height: 1.3;
+        }
+        .free-item .gold {
+            color: #c9a96e;
+            font-weight: 500;
+        }
+        .free-item .badge-free {
+            display: inline-block;
+            background: rgba(201, 169, 110, 0.08);
+            color: #c9a96e;
+            font-size: 0.5rem;
+            font-weight: 600;
+            padding: 1px 10px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 110, 0.08);
+            margin-top: 2px;
+        }
+
+        /* ===== ДВЕ КОЛОНКИ: ПРАЗДНИКИ + ПОДАРКИ ===== */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            padding: 12px 0 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .col-block {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 14px 18px;
+        }
+        .col-block h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #c9a96e;
+            margin-bottom: 6px;
+        }
+        .col-block ul {
+            list-style: none;
+            font-size: 0.8rem;
+            color: #a09888;
+            line-height: 2;
+        }
+        .col-block ul li::before {
+            content: '✦ ';
+            color: #c9a96e;
+            font-size: 0.6rem;
+        }
+        .col-block ul li .tooltip {
+            font-size: 0.5rem;
+            color: #6a6060;
+        }
+        .col-block ul li .tooltip::before {
+            content: '➜ ';
+            color: #c9a96e;
+        }
+
+        /* ===== УКРАШЕНИЕ САЙТА ===== */
+        .decoration {
+            padding: 12px 0 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .decoration h3 {
+            font-family: 'Playfair Display', serif;
+            color: #c9a96e;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        .decoration-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .deco-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 12px 12px 10px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .deco-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-2px);
+        }
+        .deco-item .icon {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .deco-item .label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #f0ece6;
+        }
+        .deco-item .price-tag {
+            font-size: 0.55rem;
+            color: #c9a96e;
+            background: rgba(201, 169, 110, 0.08);
+            padding: 2px 10px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 3px;
+            border: 1px solid rgba(201, 169, 110, 0.08);
+        }
+        .deco-item .desc {
+            font-size: 0.55rem;
+            color: #a09888;
+            margin-top: 2px;
+        }
+
+        /* Градиент с анимацией */
+        .demo-gradient {
+            border-radius: 12px;
+            padding: 14px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: #fff;
+            font-weight: 500;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #e6091f, #b20f27, #67111b, #a92c3e, #3b181c, #271b24, #40343c, #150e0f, #414040, #272625);
+            background-size: 400% 400%;
+            animation: gradientShift 6s ease infinite;
+            border: none;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Светящийся блок */
+        .demo-light {
+            border-radius: 12px;
+            padding: 14px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: #c9a96e;
+            letter-spacing: 1px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .demo-light::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(201, 169, 110, 0.15), transparent 60%);
+            animation: lightPulse 4s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+        @keyframes lightPulse {
+            0% { transform: translate(-10%, -10%) scale(0.8); opacity: 0.3; }
+            100% { transform: translate(10%, 10%) scale(1.2); opacity: 1; }
+        }
+
+        /* Окантовка */
+        .demo-vine {
+            border-radius: 12px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: #c9a96e;
+            letter-spacing: 1px;
+            border: 2px solid #c9a96e;
+            background: rgba(255, 255, 255, 0.02);
+            position: relative;
+        }
+        .demo-vine::before {
+            content: '🌿🌿🌿';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 0.5rem;
+            background: #1a1113;
+            padding: 0 6px;
+            color: #c9a96e;
+        }
+        .demo-vine::after {
+            content: '🌿🌿🌿';
+            position: absolute;
+            bottom: -10px;
+            right: 10px;
+            font-size: 0.5rem;
+            background: #1a1113;
+            padding: 0 6px;
+            color: #c9a96e;
+        }
+
+        /* ===== ФОТО-ПРИМЕР ===== */
+        .photo-example {
+            grid-column: span 4;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(201, 169, 110, 0.15);
+            border-radius: 16px;
+            padding: 18px;
+            text-align: center;
+            color: #a09888;
+            font-size: 0.8rem;
             min-height: 100px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            gap: 4px;
+            justify-content: center;
         }
-        .interactive-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: var(--border);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-        .interactive-card .icon {
-            font-size: 1.8rem;
-        }
-        .interactive-card .name {
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--text);
-        }
-        .interactive-card .desc {
-            font-size: 0.55rem;
-            color: var(--text-muted);
-            line-height: 1.3;
-            max-width: 140px;
+        .photo-example .big-icon {
+            font-size: 2.8rem;
+            margin-bottom: 6px;
         }
 
         /* ===== ФУТЕР ===== */
         .footer {
-            text-align: center;
-            padding: 30px 20px 10px;
-            border-top: 1px solid var(--border);
-            margin-top: 10px;
+            padding-top: 16px;
+            margin-top: 4px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
         }
         .footer .brand {
             font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            letter-spacing: 4px;
-            color: var(--text);
+            font-size: 1rem;
+            letter-spacing: 3px;
+            color: #a09888;
         }
         .footer .brand .gold {
-            color: var(--gold);
+            color: #c9a96e;
         }
-        .footer p {
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            margin-top: 6px;
-            opacity: 0.5;
-        }
-        .footer .heart {
-            color: var(--gold);
+        .footer .copy {
+            font-size: 0.6rem;
+            color: #5a5050;
         }
 
-        /* ============================================================
-                   АДАПТАЦИЯ
-                ============================================================ */
-        @media (max-width: 700px) {
-            body {
-                padding: 14px 10px;
-            }
-            .header .logo {
-                font-size: 2rem;
-            }
-            .header .logo small {
-                font-size: 0.5rem;
-                letter-spacing: 3px;
-            }
-            .section {
-                padding: 20px 14px 16px;
-                border-radius: 20px;
-            }
-            .section-title {
-                font-size: 1.2rem;
-                flex-wrap: wrap;
-            }
-            .section-title .count {
-                font-size: 0.5rem;
-                margin-left: 0;
-            }
-            .grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 8px;
-            }
-            .interactive-card {
-                min-height: 80px;
-                padding: 10px 8px;
-            }
-            .interactive-card .icon {
-                font-size: 1.4rem;
-            }
-            .interactive-card .name {
-                font-size: 0.6rem;
-            }
-            .interactive-card .desc {
-                font-size: 0.5rem;
-            }
-            .toc a {
-                font-size: 0.55rem;
-            }
-            .toc {
-                gap: 4px 12px;
-                padding: 10px 4px 8px;
-            }
+        /* ===== АДАПТАЦИЯ ===== */
+        @media (max-width: 860px) {
+            .pricing { grid-template-columns: 1fr 1fr; }
+            .interactive-grid { grid-template-columns: 1fr 1fr; }
+            .freebies-grid { grid-template-columns: 1fr 1fr; }
+            .two-col { grid-template-columns: 1fr; }
+            .decoration-grid { grid-template-columns: 1fr 1fr; }
+            .photo-example { grid-column: span 2; }
+            .card { padding: 20px 16px 16px; }
+            .hero h1 { font-size: 2.2rem; }
+            .logo { font-size: 2rem; }
+            .about p { max-width: 100%; }
         }
-
-        @media (max-width: 430px) {
-            .grid {
-                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-                gap: 6px;
+        @media (max-width: 500px) {
+            .pricing { grid-template-columns: 1fr; }
+            .interactive-grid { grid-template-columns: 1fr 1fr; }
+            .freebies-grid { grid-template-columns: 1fr 1fr; }
+            .decoration-grid { grid-template-columns: 1fr 1fr; }
+            .photo-example { grid-column: span 2; }
+            .hero h1 { font-size: 1.7rem; }
+            .logo { font-size: 1.6rem; }
+            .header { flex-direction: column; align-items: flex-start; }
+            .price-card .price { font-size: 1.4rem; }
+            .btn { width: 100%; text-align: center; padding: 10px 16px; font-size: 0.75rem; }
+            .hero .btns { width: 100%; flex-direction: column; }
+            .card { padding: 14px 10px 12px; border-radius: 20px; }
+            .footer { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .accordion-header .section-title {
+                font-size: 1rem;
             }
-            .interactive-card {
-                min-height: 70px;
-                padding: 8px 6px;
-            }
-            .interactive-card .icon {
-                font-size: 1.2rem;
-            }
-            .interactive-card .name {
-                font-size: 0.5rem;
-            }
-            .interactive-card .desc {
-                font-size: 0.45rem;
-            }
-            .section-title {
+            .accordion-icon {
                 font-size: 1rem;
             }
         }
@@ -309,301 +673,292 @@
 </head>
 <body>
 
-    <div class="container">
+    <div class="card">
 
-        <!-- ============================================================ -->
-        <!-- ШАПКА -->
-        <!-- ============================================================ -->
-        <header class="header">
+        <!-- ===== ШАПКА ===== -->
+        <div class="header">
             <div class="logo">
                 SQST<span class="gold">✦</span>
                 <small>сайты-свидания</small>
             </div>
-            <div class="subtitle">✨ Интерактивная площадка — 89 фишек для вашего сайта ✨</div>
-        </header>
+            <span class="badge-top">✨ в тренде</span>
+        </div>
+
+        <!-- ===== ГЕРОЙ ===== -->
+        <div class="hero">
+            <div>
+                <h1>Сайт-свидание <br /><span class="gold">за 1 день</span></h1>
+                <div class="hero-sub">Подарок, который запомнят навсегда</div>
+            </div>
+            <div class="btns">
+                <a href="https://t.me/ssqwst" target="_blank" class="btn">💬 Написать мне</a>
+                <a href="https://t.me/sqst_ss" target="_blank" class="btn btn-outline">📸 Примеры</a>
+            </div>
+        </div>
+
+        <!-- ===== ОБО МНЕ ===== -->
+        <div class="about">
+            <p>
+                Привет! Я создаю <span class="gold">сайты-свидания</span> — романтичные страницы для пар.
+                Подарок на день рождения, годовщину или просто так.
+                Всё делаю за 1 день. 🤍 <span class="gold">Покажу до оплаты</span> · правки <span class="gold">бесплатно</span>
+            </p>
+        </div>
 
         <!-- ============================================================ -->
-        <!-- ОГЛАВЛЕНИЕ (якоря) -->
+        <!-- ===== ЧТО ВХОДИТ В САЙТ (3 БЛОКА ЦЕН) ===== -->
         <!-- ============================================================ -->
-        <nav class="toc">
-            <a href="#sec1">🎲 Гадания</a>
-            <a href="#sec2">🎮 Игры на память</a>
-            <a href="#sec3">❤️ Романтика</a>
-            <a href="#sec4">🎁 Подарки</a>
-            <a href="#sec5">🎨 Креатив</a>
-            <a href="#sec6">🧩 Истории</a>
-            <a href="#sec7">💬 Общение</a>
-            <a href="#sec8">⏳ Время</a>
-            <a href="#sec9">🌍 География</a>
-            <a href="#sec10">🤖 Генераторы</a>
-            <a href="#sec11">🎶 Музыка</a>
-            <a href="#sec12">🔥 Сложные игры</a>
-        </nav>
+        <div class="section-title">📦 Что входит в сайт</div>
+
+        <div class="pricing">
+
+            <!-- БАЗОВЫЙ 500 ₽ -->
+            <div class="price-card">
+                <div class="name">🌱 Базовый набор</div>
+                <div class="price">500 ₽ <small>/ сайт</small></div>
+                <ul class="features">
+                    <li>📸 5–10 совместных фото</li>
+                    <li>🎵 Музыкальный плеер (автозапуск)</li>
+                    <li>⏳ Таймер до встречи</li>
+                    <li>💕 Счётчик дней вместе</li>
+                    <li>💌 Письмо в будущее</li>
+                    <li>🎁 Кнопка «Поцеловать»</li>
+                    <li style="color: #c9a96e; font-size: 0.65rem; margin-top: 4px;">
+                        ✨ Интерактив <span class="badge-price">+ 50 ₽</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- РАСШИРЕННЫЙ 700 ₽ -->
+            <div class="price-card">
+                <div class="name">🔥 Расширенный набор</div>
+                <div class="price">700 ₽ <small>/ сайт</small></div>
+                <ul class="features">
+                    <li>🌱 Всё из базового</li>
+                    <li>🗺️ Карта ваших мест</li>
+                    <li>📝 История любви</li>
+                    <li>🎬 Общее видео</li>
+                    <li>🌟 Анимированные эффекты</li>
+                    <li>🔐 Секретный раздел (по паролю)</li>
+                    <li>🎂 Капсула времени (5 лет)</li>
+                    <li style="color: #c9a96e; font-size: 0.65rem; margin-top: 4px;">
+                        ✨ Интерактив <span class="badge-free">бесплатно</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- ПРЕМИУМ 800 ₽ -->
+            <div class="price-card">
+                <div class="name">💎 Премиум набор</div>
+                <div class="price">800 ₽ <small>/ сайт</small></div>
+                <ul class="features">
+                    <li>🌱🔥 Всё из базового и расширенного</li>
+                    <li>📹 Видео-поздравление (15–30 сек)</li>
+                    <li>🎨 Индивидуальный дизайн</li>
+                    <li>📱 Адаптация под телефон</li>
+                    <li>💬 Интерактивный чат</li>
+                    <li>🎁 Подарочный QR-код</li>
+                    <li>🧩 Секретное задание (игра)</li>
+                    <li style="color: #c9a96e; font-size: 0.65rem; margin-top: 4px;">
+                        ✨ Интерактив <span class="badge-free">бесплатно</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 1: 🎲 ГАДАНИЯ И ПРЕДСКАЗАНИЯ (6 шт.) -->
+        <!-- ===== ИНТЕРАКТИВ — АККОРДЕОН ===== -->
         <!-- ============================================================ -->
-        <section class="section" id="sec1">
-            <div class="section-title">
-                <span class="icon">🎲</span>
-                Гадания и предсказания
-                <span class="count">6</span>
+        <div class="interactive-block">
+
+            <!-- КЛИКАБЕЛЬНЫЙ ЗАГОЛОВОК -->
+            <div class="accordion-header" onclick="toggleAccordion()">
+                <div class="section-title" style="margin:0; border-bottom:none; padding-bottom:0;">
+                    🎮 Интерактив — добавь игру в свой сайт
+                    <small>сделай сайт живым и весёлым</small>
+                </div>
+                <span class="accordion-icon" id="accordionIcon">▼</span>
             </div>
-            <div class="grid">
-                <div class="interactive-card"><span class="icon">🔮</span><span class="name">Магический шар</span><span class="desc">Задай вопрос → получи ответ</span></div>
-                <div class="interactive-card"><span class="icon">📖</span><span class="name">Книга судьбы</span><span class="desc">Открой случайную страницу</span></div>
-                <div class="interactive-card"><span class="icon">🌸</span><span class="name">Гадание на ромашке</span><span class="desc">Отрывай лепестки: любит/не любит</span></div>
-                <div class="interactive-card"><span class="icon">🕰️</span><span class="name">Маятник</span><span class="desc">Кликни → качается и даёт «да/нет»</span></div>
-                <div class="interactive-card"><span class="icon">🌟</span><span class="name">Оракул</span><span class="desc">Развёрнутое предсказание</span></div>
-                <div class="interactive-card"><span class="icon">🪨</span><span class="name">Гадание на рунах</span><span class="desc">Брось руны → узнай значение</span></div>
+
+            <!-- СОДЕРЖИМОЕ (открыто по умолчанию) -->
+            <div class="accordion-content open" id="accordionContent">
+                <div class="interactive-grid">
+                    <div class="interactive-item">
+                        <span class="icon">💋</span>
+                        <span class="label">Кнопка «<span class="gold">Поцеловать</span>»</span>
+                        <span class="tooltip">счётчик поцелуев</span>
+                    </div>
+                    <div class="interactive-item">
+                        <span class="icon">🤗</span>
+                        <span class="label">Счётчик <span class="gold">объятий</span></span>
+                        <span class="tooltip">сколько раз обняли</span>
+                    </div>
+                    <div class="interactive-item">
+                        <span class="icon">🎲</span>
+                        <span class="label">Генератор идей <span class="gold">для свиданий</span></span>
+                        <span class="tooltip">что делать сегодня</span>
+                    </div>
+                    <div class="interactive-item">
+                        <span class="icon">🎁</span>
+                        <span class="label"><span class="gold">Копилка</span> для подарков</span>
+                        <span class="tooltip">идеи и пожелания</span>
+                    </div>
+                </div>
             </div>
-        </section>
+
+        </div>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 2: 🎮 ИГРЫ НА ВНИМАНИЕ И ПАМЯТЬ (14 шт.) -->
+        <!-- ===== ДОПОЛНИТЕЛЬНЫЕ ФИШКИ ===== -->
         <!-- ============================================================ -->
-        <section class="section" id="sec2">
-            <div class="section-title">
-                <span class="icon">🎮</span>
-                Игры на внимание и память
-                <span class="count">14</span>
+        <div class="freebies-block">
+            <div class="section-title" style="margin-bottom: 2px;">
+                🎁 Дополнительные фишки
+                <small>всё это уже включено в любой набор</small>
             </div>
-            <div class="grid">
-                <div class="interactive-card"><span class="icon">🧩</span><span class="name">Найди пару (мемори)</span><span class="desc">Переворачивай карточки</span></div>
-                <div class="interactive-card"><span class="icon">❌⭕</span><span class="name">Крестики-нолики</span><span class="desc">Играй с ботом</span></div>
-                <div class="interactive-card"><span class="icon">🧠</span><span class="name">Запомни последовательность</span><span class="desc">Повтори ряд цветов/звуков</span></div>
-                <div class="interactive-card"><span class="icon">🔍</span><span class="name">Найди отличия</span><span class="desc">Найди 5 отличий</span></div>
-                <div class="interactive-card"><span class="icon">🌀</span><span class="name">Лабиринт</span><span class="desc">Проведи до выхода</span></div>
-                <div class="interactive-card"><span class="icon">🧮</span><span class="name">Судоку 4×4</span><span class="desc">Заполни сетку</span></div>
-                <div class="interactive-card"><span class="icon">⚓</span><span class="name">Морской бой 5×5</span><span class="desc">Упрощённая версия</span></div>
-                <div class="interactive-card"><span class="icon">💣</span><span class="name">Сапёр</span><span class="desc">Мини-версия 5×5</span></div>
-                <div class="interactive-card"><span class="icon">🎯</span><span class="name">Угадай эмоцию</span><span class="desc">Угадай эмоцию по фото</span></div>
-                <div class="interactive-card"><span class="icon">📸</span><span class="name">Фото-викторина</span><span class="desc">Угадай по части фото</span></div>
-                <div class="interactive-card"><span class="icon">🔢</span><span class="name">Угадай число</span><span class="desc">Угадай число 1–100</span></div>
-                <div class="interactive-card"><span class="icon">🧩</span><span class="name">Составь слово</span><span class="desc">Собери слово из букв</span></div>
-                <div class="interactive-card"><span class="icon">🎲</span><span class="name">Кубик желаний</span><span class="desc">Брось кубик → желание</span></div>
-                <div class="interactive-card"><span class="icon">🎡</span><span class="name">Колесо фортуны</span><span class="desc">Вращай → выпадает приз</span></div>
+
+            <div class="freebies-grid">
+                <div class="free-item">
+                    <span class="icon">🎨</span>
+                    <span class="label">Фирменный <span class="gold">дизайн</span></span>
+                    <span class="badge-free">бесплатно</span>
+                </div>
+                <div class="free-item">
+                    <span class="icon">📱</span>
+                    <span class="label"><span class="gold">QR-код</span> для печати</span>
+                    <span class="badge-free">бесплатно</span>
+                </div>
+                <div class="free-item">
+                    <span class="icon">💌</span>
+                    <span class="label">Письмо с <span class="gold">секретом</span></span>
+                    <span class="badge-free">бесплатно</span>
+                </div>
+                <div class="free-item">
+                    <span class="icon">🌐</span>
+                    <span class="label"><span class="gold">Персональный</span> домен</span>
+                    <span class="badge-free">бесплатно</span>
+                </div>
             </div>
-        </section>
+        </div>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 3: ❤️ РОМАНТИЧЕСКИЕ ФИШКИ (13 шт.) -->
+        <!-- ===== ДВЕ КОЛОНКИ: ПРАЗДНИКИ + ПОДАРКИ ===== -->
         <!-- ============================================================ -->
-        <section class="section" id="sec3">
-            <div class="section-title">
-                <span class="icon">❤️</span>
-                Романтические фишки
-                <span class="count">13</span>
+        <div class="two-col">
+            <div class="col-block">
+                <h3>🎉 Фишки для праздников</h3>
+                <ul>
+                    <li>Сайт на День рождения</li>
+                    <li>Сайт на годовщину</li>
+                    <li>Сайт на 8 Марта / 14 Февраля</li>
+                    <li>Сайт-сюрприз «Просто так»</li>
+                    <li>Сайт с таймером до события</li>
+                </ul>
             </div>
-            <div class="grid">
-                <div class="interactive-card"><span class="icon">💖</span><span class="name">100 причин любить</span><span class="desc">Кликай → причина любви</span></div>
-                <div class="interactive-card"><span class="icon">🌌</span><span class="name">Генератор свиданий</span><span class="desc">Идея для свидания</span></div>
-                <div class="interactive-card"><span class="icon">🎨</span><span class="name">Палитра настроения</span><span class="desc">Цвет → настроение</span></div>
-                <div class="interactive-card"><span class="icon">⏳</span><span class="name">Фото-таймер</span><span class="desc">Фото через 10 секунд</span></div>
-                <div class="interactive-card"><span class="icon">💌</span><span class="name">Свидание-сюрприз</span><span class="desc">Конверт с идеей</span></div>
-                <div class="interactive-card"><span class="icon">❓</span><span class="name">Вопросы для влюблённых</span><span class="desc">Карточки с вопросами</span></div>
-                <div class="interactive-card"><span class="icon">☀️</span><span class="name">Идеальный день</span><span class="desc">Выбери варианты → план</span></div>
-                <div class="interactive-card"><span class="icon">💋</span><span class="name">Календарь поцелуев</span><span class="desc">Отмечай дни поцелуев</span></div>
-                <div class="interactive-card"><span class="icon">🔐</span><span class="name">Секретный код</span><span class="desc">Введи код → подарок</span></div>
-                <div class="interactive-card"><span class="icon">📝</span><span class="name">Напиши письмо через год</span><span class="desc">Сохраняется на год</span></div>
-                <div class="interactive-card"><span class="icon">💕</span><span class="name">Калькулятор любви</span><span class="desc">Процент совместимости</span></div>
-                <div class="interactive-card"><span class="icon">🕯️</span><span class="name">Свечи желаний</span><span class="desc">Зажги свечу → желание</span></div>
-                <div class="interactive-card"><span class="icon">🎁</span><span class="name">Свидание вслепую</span><span class="desc">Введи город → кафе/парк</span></div>
+            <div class="col-block">
+                <h3>🎁 Фишки для подарков</h3>
+                <ul>
+                    <li>
+                        Сайт вместо букета
+                        <span class="tooltip">подарите эмоции, а не цветы</span>
+                    </li>
+                    <li>
+                        Сайт-открытка с музыкой
+                        <span class="tooltip">ваша песня + фото + текст</span>
+                    </li>
+                    <li>Сайт с плейлистом для пары</li>
+                    <li>Сайт-капсула времени</li>
+                    <li>Сайт с совместными целями</li>
+                </ul>
             </div>
-        </section>
+        </div>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 4: 🎁 ПОДАРКИ И СЮРПРИЗЫ (7 шт.) -->
+        <!-- ===== УКРАШЕНИЕ САЙТА ===== -->
         <!-- ============================================================ -->
-        <section class="section" id="sec4">
-            <div class="section-title">
-                <span class="icon">🎁</span>
-                Подарки и сюрпризы
-                <span class="count">7</span>
-            </div>
-            <div class="grid">
-                <div class="interactive-card"><span class="icon">🎡</span><span class="name">Рулетка сюрпризов</span><span class="desc">Вращай → выпадает подарок</span></div>
-                <div class="interactive-card"><span class="icon">⏳</span><span class="name">Капсула времени</span><span class="desc">Откроется через 5 лет</span></div>
-                <div class="interactive-card"><span class="icon">🔐</span><span class="name">Подарок с секретом</span><span class="desc">Выполни задание → открой</span></div>
-                <div class="interactive-card"><span class="icon">🗺️</span><span class="name">Сундук с сокровищами</span><span class="desc">Открой → цитата, фото, песня</span></div>
-                <div class="interactive-card"><span class="icon">📦</span><span class="name">Коробка сюрпризов</span><span class="desc">Кликни → несколько вариантов</span></div>
-                <div class="interactive-card"><span class="icon">📆</span><span class="name">Адвент-календарь</span><span class="desc">14 дней → подарок каждый день</span></div>
-                <div class="interactive-card"><span class="icon">🎀</span><span class="name">Секретный подарок</span><span class="desc">Нажми 10 раз → откроется</span></div>
-            </div>
-        </section>
+        <div class="decoration">
+            <h3>✨ Как можно украсить сайт</h3>
+            <div class="decoration-grid">
 
-        <!-- ============================================================ -->
-        <!-- БЛОК 5: 🎨 КРЕАТИВНЫЕ ФИШКИ (10 шт.) -->
-        <!-- ============================================================ -->
-        <section class="section" id="sec5">
-            <div class="section-title">
-                <span class="icon">🎨</span>
-                Креативные фишки
-                <span class="count">10</span>
-            </div>
-            <div class="grid">
-                <div class="interactive-card"><span class="icon">📝</span><span class="name">Генератор стихов</span><span class="desc">Введи имя → стихотворение</span></div>
-                <div class="interactive-card"><span class="icon">✍️</span><span class="name">Генератор подписей</span><span class="desc">Введи тему → подпись</span></div>
-                <div class="interactive-card"><span class="icon">😂</span><span class="name">Генератор мемов</span><span class="desc">Вставь фото и текст → мем</span></div>
-                <div class="interactive-card"><span class="icon">📸</span><span class="name">Фото-фильтры</span><span class="desc">Ч/Б, сепия, неон</span></div>
-                <div class="interactive-card"><span class="icon">🎨</span><span class="name">Пиксель-арт</span><span class="desc">Кликай на сетку → закрашивай</span></div>
-                <div class="interactive-card"><span class="icon">☁️</span><span class="name">Облако слов</span><span class="desc">Введи слова → облако</span></div>
-                <div class="interactive-card"><span class="icon">🖼️</span><span class="name">Генератор открыток</span><span class="desc">Фон, текст, стикеры</span></div>
-                <div class="interactive-card"><span class="icon">✏️</span><span class="name">Совместный рисунок</span><span class="desc">Рисуйте вдвоём</span></div>
-                <div class="interactive-card"><span class="icon">🧩</span><span class="name">Пазл из фото</span><span class="desc">Собери картинку</span></div>
-                <div class="interactive-card"><span class="icon">✨</span><span class="name">Анимированный текст</span><span class="desc">Текст летает и светится</span></div>
-            </div>
-        </section>
+                <!-- Свой фон -->
+                <div class="deco-item">
+                    <span class="icon">🖼️</span>
+                    <span class="label">Свой фон</span>
+                    <span class="price-tag">+ 50 ₽</span>
+                    <div class="desc">Загрузи своё фото</div>
+                </div>
 
-        <!-- ============================================================ -->
-        <!-- БЛОК 6: 🧩 ИНТЕРАКТИВНЫЕ ИСТОРИИ (6 шт.) -->
-        <!-- ============================================================ -->
-        <section class="section" id="sec6">
-            <div class="section-title">
-                <span class="icon">🧩</span>
-                Интерактивные истории
-                <span class="count">6</span>
-            </div>
-            <div class="grid">
-                <div class="interactive-card"><span class="icon">🗺️</span><span class="name">Квест для пары</span><span class="desc">5 шагов с заданиями</span></div>
-                <div class="interactive-card"><span class="icon">📖</span><span class="name">Выбери своё приключение</span><span class="desc">История с развилками</span></div>
-                <div class="interactive-card"><span class="icon">💌</span><span class="name">Дневник благодарности</span><span class="desc">Запиши, за что благодарен</span></div>
-                <div class="interactive-card"><span class="icon">📸</span><span class="name">Виртуальная фото-книга</span><span class="desc">Листай как альбом</span></div>
-                <div class="interactive-card"><span class="icon">📅</span><span class="name">Таймлайн</span><span class="desc">Шкала с датами и фото</span></div>
-                <div class="interactive-card"><span class="icon">📖</span><span class="name">Книга воспоминаний</span><span class="desc">Листай с анимацией</span></div>
-            </div>
-        </section>
+                <!-- Градиент с анимацией -->
+                <div class="deco-item" style="padding: 0; overflow: hidden;">
+                    <div class="demo-gradient" style="border-radius: 14px 14px 0 0; min-height: 70px;">
+                        ✦ градиент ✦
+                    </div>
+                    <div style="padding: 4px 0 8px;">
+                        <span class="label">Градиент блоков</span>
+                        <span class="price-tag">+ 100 ₽</span>
+                        <div class="desc">переливается</div>
+                    </div>
+                </div>
 
-        <!-- ============================================================ -->
-        <!-- БЛОК 7: 💬 ОБЩЕНИЕ И ВЗАИМОДЕЙСТВИЕ (8 шт.) -->
-        <!-- ============================================================ -->
-        <section class="section" id="sec7">
-            <div class="section-title">
-                <span class="icon">💬</span>
-                Общение и взаимодействие
-                <span class="count">8</span>
-            </div>
-            <div class="grid">
-                <div class="interactive-card"><span class="icon">📖</span><span class="name">Гостевая книга</span><span class="desc">Оставляй записи</span></div>
-                <div class="interactive-card"><span class="icon">❓</span><span class="name">Вопрос дня</span><span class="desc">Каждый день новый вопрос</span></div>
-                <div class="interactive-card"><span class="icon">🎯</span><span class="name">Совместные цели</span><span class="desc">Добавь цель и прогресс</span></div>
-                <div class="interactive-card"><span class="icon">❤️</span><span class="name">Смайлик-реакция</span><span class="desc">Лайк/сердечко на фото</span></div>
-                <div class="interactive-card"><span class="icon">🎤</span><span class="name">Голосовое сообщение</span><span class="desc">Запиши и отправь</span></div>
-                <div class="interactive-card"><span class="icon">🤫</span><span class="name">Чат с анонимными вопросами</span><span class="desc">Анонимно спрашивай</span></div>
-                <div class="interactive-card"><span class="icon">🤗</span><span class="name">Обниматор</span><span class="desc">Счётчик объятий</span></div>
-                <div class="interactive-card"><span class="icon">💬</span><span class="name">Скажи слово</span><span class="desc">Введи слово → угадай эмоцию</span></div>
-            </div>
-        </section>
+                <!-- Окантовка лозой -->
+                <div class="deco-item" style="padding: 0; overflow: hidden;">
+                    <div class="demo-vine" style="border-radius: 14px 14px 0 0; min-height: 70px;">
+                        🌿 окантовка 🌿
+                    </div>
+                    <div style="padding: 4px 0 8px;">
+                        <span class="label">Окантовка лозой</span>
+                        <span class="price-tag" style="background: rgba(201, 169, 110, 0.05); color: #c9a96e;">бесплатно</span>
+                    </div>
+                </div>
 
-        <!-- ============================================================ -->
-        <!-- БЛОК 8: ⏳ ВРЕМЯ И ДАТЫ (7 шт.) -->
-        <!-- ============================================================ -->
-        <section class="section" id="sec8">
-            <div class="section-title">
-                <span class="icon">⏳</span>
-                Время и даты
-                <span class="count">7</span>
-            </div>
-            <div class="grid">
-                <div class="interactive-card"><span class="icon">⏱️</span><span class="name">Таймер до важной даты</span><span class="desc">До ДР, годовщины</span></div>
-                <div class="interactive-card"><span class="icon">💕</span><span class="name">Сколько мы вместе</span><span class="desc">Годы, месяцы, дни, часы</span></div>
-                <div class="interactive-card"><span class="icon">📅</span><span class="name">Календарь с отметками</span><span class="desc">Отмечай дни вместе</span></div>
-                <div class="interactive-card"><span class="icon">⏱️</span><span class="name">Секундомер</span><span class="desc">Засекай время вместе</span></div>
-                <div class="interactive-card"><span class="icon">📆</span><span class="name">Календарь событий</span><span class="desc">Даты с фото и описанием</span></div>
-                <div class="interactive-card"><span class="icon">🎂</span><span class="name">Таймер до ДР</span><span class="desc">Сколько осталось до ДР</span></div>
-                <div class="interactive-card"><span class="icon">⏳</span><span class="name">Сколько дней вместе</span><span class="desc">Счётчик дней</span></div>
-            </div>
-        </section>
+                <!-- Свет -->
+                <div class="deco-item" style="padding: 0; overflow: hidden;">
+                    <div class="demo-light" style="border-radius: 14px 14px 0 0; min-height: 70px;">
+                        ☀️ свет
+                    </div>
+                    <div style="padding: 4px 0 8px;">
+                        <span class="label">Эффект света</span>
+                        <span class="price-tag" style="background: rgba(201, 169, 110, 0.05); color: #c9a96e;">бесплатно</span>
+                        <div class="desc">светится</div>
+                    </div>
+                </div>
 
-        <!-- ============================================================ -->
-        <!-- БЛОК 9: 🌍 ГЕОГРАФИЯ И ПУТЕШЕСТВИЯ (5 шт.) -->
-        <!-- ============================================================ -->
-        <section class="section" id="sec9">
-            <div class="section-title">
-                <span class="icon">🌍</span>
-                География и путешествия
-                <span class="count">5</span>
-            </div>
-            <div class="grid">
-                <div class="interactive-card"><span class="icon">🗺️</span><span class="name">Карта путешествий</span><span class="desc">Отметь города/страны</span></div>
-                <div class="interactive-card"><span class="icon">📍</span><span class="name">Маршрут свидания</span><span class="desc">Отметь точки маршрута</span></div>
-                <div class="interactive-card"><span class="icon">📌</span><span class="name">Фото по координатам</span><span class="desc">Фото на карте</span></div>
-                <div class="interactive-card"><span class="icon">✈️</span><span class="name">Куда поехать</span><span class="desc">Генератор городов</span></div>
-                <div class="interactive-card"><span class="icon">🗺️</span><span class="name">Карта желаний</span><span class="desc">Места, куда хотите поехать</span></div>
-            </div>
-        </section>
+                <!-- Большое фото -->
+                <div class="photo-example">
+                    <span class="big-icon">📸</span>
+                    <span style="font-weight: 500; color: #c9a96e;">Здесь будет ваше фото</span>
+                    <span style="font-size: 0.7rem; color: #6a6060;">Пример оформления сайта</span>
+                </div>
 
-        <!-- ============================================================ -->
-        <!-- БЛОК 10: 🤖 ГЕНЕРАТОРЫ И РАНДОМ (10 шт.) -->
-        <!-- ============================================================ -->
-        <section class="section" id="sec10">
-            <div class="section-title">
-                <span class="icon">🤖</span>
-                Генераторы и рандом
-                <span class="count">10</span>
             </div>
-            <div class="grid">
-                <div class="interactive-card"><span class="icon">🌌</span><span class="name">Генератор свиданий</span><span class="desc">Случайная идея</span></div>
-                <div class="interactive-card"><span class="icon">💋</span><span class="name">Генератор романтических жестов</span><span class="desc">«Сделай чай», «Оставь записку»</span></div>
-                <div class="interactive-card"><span class="icon">🎁</span><span class="name">Генератор подарков</span><span class="desc">Идеи по бюджету</span></div>
-                <div class="interactive-card"><span class="icon">👶</span><span class="name">Генератор имён для детей</span><span class="desc">Смешные варианты</span></div>
-                <div class="interactive-card"><span class="icon">🦸</span><span class="name">Генератор псевдонимов</span><span class="desc">Смешные прозвища</span></div>
-                <div class="interactive-card"><span class="icon">🤪</span><span class="name">Генератор оправданий</span><span class="desc">Смешные оправдания</span></div>
-                <div class="interactive-card"><span class="icon">🤖</span><span class="name">Комплименты для роботов</span><span class="desc">Смешные комплименты</span></div>
-                <div class="interactive-card"><span class="icon">🎲</span><span class="name">Генератор прозвищ</span><span class="desc">Новые прозвища каждый день</span></div>
-                <div class="interactive-card"><span class="icon">💕</span><span class="name">Калькулятор любви</span><span class="desc">Процент совместимости</span></div>
-                <div class="interactive-card"><span class="icon">🎲</span><span class="name">Кубик желаний</span><span class="desc">Брось → желание</span></div>
-            </div>
-        </section>
+        </div>
 
-        <!-- ============================================================ -->
-        <!-- БЛОК 11: 🎶 МУЗЫКА И ЗВУКИ (6 шт.) -->
-        <!-- ============================================================ -->
-        <section class="section" id="sec11">
-            <div class="section-title">
-                <span class="icon">🎶</span>
-                Музыка и звуки
-                <span class="count">6</span>
-            </div>
-            <div class="grid">
-                <div class="interactive-card"><span class="icon">🎵</span><span class="name">Музыкальная открытка</span><span class="desc">Песня при открытии</span></div>
-                <div class="interactive-card"><span class="icon">🌧️</span><span class="name">Звуки природы</span><span class="desc">Шум дождя, леса, моря</span></div>
-                <div class="interactive-card"><span class="icon">🎤</span><span class="name">Караоке</span><span class="desc">Текст с подсветкой</span></div>
-                <div class="interactive-card"><span class="icon">🔊</span><span class="name">Звуки по кнопке</span><span class="desc">Поцелуй, смех, аплодисменты</span></div>
-                <div class="interactive-card"><span class="icon">💿</span><span class="name">Плейлист-капсула</span><span class="desc">Песня в определённый день</span></div>
-                <div class="interactive-card"><span class="icon">🎵</span><span class="name">Музыкальный плейлист для пары</span><span class="desc">Список песен с фактами</span></div>
-            </div>
-        </section>
-
-        <!-- ============================================================ -->
-        <!-- БЛОК 12: 🔥 СЛОЖНЫЕ ИГРЫ (7 шт.) -->
-        <!-- ============================================================ -->
-        <section class="section" id="sec12">
-            <div class="section-title">
-                <span class="icon">🔥</span>
-                Сложные игры
-                <span class="count">7</span>
-            </div>
-            <div class="grid">
-                <div class="interactive-card"><span class="icon">🐍</span><span class="name">Змейка</span><span class="desc">Классическая змейка</span></div>
-                <div class="interactive-card"><span class="icon">🧱</span><span class="name">Тетрис</span><span class="desc">Мини-тетрис для двоих</span></div>
-                <div class="interactive-card"><span class="icon">🔢</span><span class="name">2048</span><span class="desc">Соединяй плитки</span></div>
-                <div class="interactive-card"><span class="icon">🎯</span><span class="name">Кликер</span><span class="desc">Нажимай → счётчик растёт</span></div>
-                <div class="interactive-card"><span class="icon">🎯</span><span class="name">Дартс</span><span class="desc">Попади в цель</span></div>
-                <div class="interactive-card"><span class="icon">🧩</span><span class="name">Судоку</span><span class="desc">Полная версия</span></div>
-                <div class="interactive-card"><span class="icon">🎲</span><span class="name">Кости</span><span class="desc">Брось кости</span></div>
-            </div>
-        </section>
-
-        <!-- ============================================================ -->
-        <!-- ФУТЕР -->
-        <!-- ============================================================ -->
-        <footer class="footer">
-            <div class="brand">SQST <span class="heart">❤</span> Сделано с душой</div>
-            <p>© 2026 · сайты-свидания · Ульяновск</p>
-        </footer>
+        <!-- ===== ФУТЕР ===== -->
+        <div class="footer">
+            <div class="brand">SQST <span class="gold">❤</span> Сделано с душой</div>
+            <div class="copy">© 2026 · сайты-свидания · Ульяновск</div>
+        </div>
 
     </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== СКРИПТ АККОРДЕОНА ===== -->
+    <!-- ============================================================ -->
+    <script>
+        function toggleAccordion() {
+            const content = document.getElementById('accordionContent');
+            const icon = document.getElementById('accordionIcon');
+
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                icon.textContent = '▶';
+            } else {
+                content.classList.add('open');
+                icon.textContent = '▼';
+            }
+        }
+    </script>
 
 </body>
 </html>
