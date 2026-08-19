@@ -257,14 +257,13 @@
         }
 
         /* ================================================================ */
-        /* ===== ИНТЕРАКТИВ — АККОРДЕОН ===== */
+        /* ===== ИНТЕРАКТИВ — ГЛАВНЫЙ АККОРДЕОН ===== */
         /* ================================================================ */
         .interactive-block {
             padding: 8px 0 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
 
-        /* КЛИКАБЕЛЬНЫЙ ЗАГОЛОВОК */
         .accordion-header {
             display: flex;
             align-items: center;
@@ -278,14 +277,12 @@
         .accordion-header:hover {
             background: rgba(201, 169, 110, 0.03);
         }
-
         .accordion-header .section-title {
             margin: 0;
             border-bottom: none;
             padding-bottom: 0;
             flex: 1;
         }
-
         .accordion-icon {
             font-size: 1.2rem;
             color: #c9a96e;
@@ -294,32 +291,97 @@
             flex-shrink: 0;
         }
 
-        /* КОНТЕНТ БЛОКА (скрывается/показывается) */
         .accordion-content {
             overflow: hidden;
             max-height: 0;
             opacity: 0;
-            transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+            transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.3s ease;
             margin-top: 0;
         }
-
         .accordion-content.open {
-            max-height: 800px;
+            max-height: 6000px;
             opacity: 1;
             margin-top: 8px;
         }
 
+        /* ===== ВЛОЖЕННЫЕ АККОРДЕОНЫ (категории) ===== */
+        .sub-accordion {
+            margin-bottom: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.01);
+        }
+        .sub-accordion:last-child {
+            margin-bottom: 0;
+        }
+
+        .sub-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            padding: 10px 16px;
+            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 14px;
+        }
+        .sub-header:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .sub-header .sub-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #f0ece6;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sub-header .sub-title .icon {
+            font-size: 1.2rem;
+        }
+        .sub-header .sub-title .count {
+            font-size: 0.55rem;
+            font-weight: 300;
+            color: #a09888;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1px 10px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .sub-icon {
+            font-size: 1rem;
+            color: #c9a96e;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .sub-content {
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+            padding: 0 12px;
+        }
+        .sub-content.open {
+            max-height: 2000px;
+            opacity: 1;
+            padding: 8px 12px 14px;
+        }
+
+        /* ===== КАРТОЧКИ ИНТЕРАКТИВОВ ===== */
         .interactive-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 8px;
         }
 
         .interactive-item {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 12px;
-            padding: 14px 10px;
+            padding: 12px 10px;
             text-align: center;
             transition: 0.3s;
         }
@@ -329,12 +391,12 @@
             transform: translateY(-2px);
         }
         .interactive-item .icon {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             display: block;
             margin-bottom: 2px;
         }
         .interactive-item .label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #a09888;
             line-height: 1.3;
         }
@@ -344,7 +406,7 @@
         }
         .interactive-item .tooltip {
             display: block;
-            font-size: 0.5rem;
+            font-size: 0.45rem;
             color: #6a6060;
             margin-top: 2px;
         }
@@ -638,7 +700,6 @@
         /* ===== АДАПТАЦИЯ ===== */
         @media (max-width: 860px) {
             .pricing { grid-template-columns: 1fr 1fr; }
-            .interactive-grid { grid-template-columns: 1fr 1fr; }
             .freebies-grid { grid-template-columns: 1fr 1fr; }
             .two-col { grid-template-columns: 1fr; }
             .decoration-grid { grid-template-columns: 1fr 1fr; }
@@ -647,10 +708,12 @@
             .hero h1 { font-size: 2.2rem; }
             .logo { font-size: 2rem; }
             .about p { max-width: 100%; }
+            .interactive-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
         }
         @media (max-width: 500px) {
             .pricing { grid-template-columns: 1fr; }
-            .interactive-grid { grid-template-columns: 1fr 1fr; }
             .freebies-grid { grid-template-columns: 1fr 1fr; }
             .decoration-grid { grid-template-columns: 1fr 1fr; }
             .photo-example { grid-column: span 2; }
@@ -662,12 +725,19 @@
             .hero .btns { width: 100%; flex-direction: column; }
             .card { padding: 14px 10px 12px; border-radius: 20px; }
             .footer { flex-direction: column; align-items: flex-start; gap: 4px; }
-            .accordion-header .section-title {
-                font-size: 1rem;
+            .accordion-header .section-title { font-size: 1rem; }
+            .accordion-icon { font-size: 1rem; }
+            .sub-header .sub-title { font-size: 0.7rem; }
+            .interactive-grid {
+                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+                gap: 4px;
             }
-            .accordion-icon {
-                font-size: 1rem;
-            }
+            .interactive-item { padding: 8px 6px; }
+            .interactive-item .icon { font-size: 1.2rem; }
+            .interactive-item .label { font-size: 0.5rem; }
+            .interactive-item .tooltip { font-size: 0.4rem; }
+            .sub-content { padding: 0 6px; }
+            .sub-content.open { padding: 4px 6px 10px; }
         }
     </style>
 </head>
@@ -768,46 +838,303 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- ===== ИНТЕРАКТИВ — АККОРДЕОН ===== -->
+        <!-- ===== ИНТЕРАКТИВ — ГЛАВНЫЙ АККОРДЕОН ===== -->
         <!-- ============================================================ -->
         <div class="interactive-block">
 
-            <!-- КЛИКАБЕЛЬНЫЙ ЗАГОЛОВОК -->
-            <div class="accordion-header" onclick="toggleAccordion()">
+            <!-- ГЛАВНЫЙ ЗАГОЛОВОК -->
+            <div class="accordion-header" onclick="toggleMainAccordion()">
                 <div class="section-title" style="margin:0; border-bottom:none; padding-bottom:0;">
                     🎮 Интерактив — добавь игру в свой сайт
                     <small>сделай сайт живым и весёлым</small>
                 </div>
-                <span class="accordion-icon" id="accordionIcon">▼</span>
+                <span class="accordion-icon" id="mainIcon">▼</span>
             </div>
 
             <!-- СОДЕРЖИМОЕ (открыто по умолчанию) -->
-            <div class="accordion-content open" id="accordionContent">
-                <div class="interactive-grid">
-                    <div class="interactive-item">
-                        <span class="icon">💋</span>
-                        <span class="label">Кнопка «<span class="gold">Поцеловать</span>»</span>
-                        <span class="tooltip">счётчик поцелуев</span>
+            <div class="accordion-content open" id="mainContent">
+
+                <!-- ===== КАТЕГОРИЯ 1: ГАДАНИЯ ===== -->
+                <div class="sub-accordion">
+                    <div class="sub-header" onclick="toggleSub(this)">
+                        <span class="sub-title">
+                            <span class="icon">🎲</span> Гадания и предсказания
+                            <span class="count">6</span>
+                        </span>
+                        <span class="sub-icon">▼</span>
                     </div>
-                    <div class="interactive-item">
-                        <span class="icon">🤗</span>
-                        <span class="label">Счётчик <span class="gold">объятий</span></span>
-                        <span class="tooltip">сколько раз обняли</span>
-                    </div>
-                    <div class="interactive-item">
-                        <span class="icon">🎲</span>
-                        <span class="label">Генератор идей <span class="gold">для свиданий</span></span>
-                        <span class="tooltip">что делать сегодня</span>
-                    </div>
-                    <div class="interactive-item">
-                        <span class="icon">🎁</span>
-                        <span class="label"><span class="gold">Копилка</span> для подарков</span>
-                        <span class="tooltip">идеи и пожелания</span>
+                    <div class="sub-content open">
+                        <div class="interactive-grid">
+                            <div class="interactive-item"><span class="icon">🔮</span><span class="label">Магический шар</span><span class="tooltip">задай вопрос → ответ</span></div>
+                            <div class="interactive-item"><span class="icon">📖</span><span class="label">Книга судьбы</span><span class="tooltip">открой случайную страницу</span></div>
+                            <div class="interactive-item"><span class="icon">🌸</span><span class="label">Гадание на ромашке</span><span class="tooltip">отрывай лепестки</span></div>
+                            <div class="interactive-item"><span class="icon">🕰️</span><span class="label">Маятник</span><span class="tooltip">качается → да/нет</span></div>
+                            <div class="interactive-item"><span class="icon">🌟</span><span class="label">Оракул</span><span class="tooltip">развёрнутое предсказание</span></div>
+                            <div class="interactive-item"><span class="icon">🪨</span><span class="label">Гадание на рунах</span><span class="tooltip">брось руны → значение</span></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
+                <!-- ===== КАТЕГОРИЯ 2: ИГРЫ НА ПАМЯТЬ ===== -->
+                <div class="sub-accordion">
+                    <div class="sub-header" onclick="toggleSub(this)">
+                        <span class="sub-title">
+                            <span class="icon">🎮</span> Игры на внимание и память
+                            <span class="count">14</span>
+                        </span>
+                        <span class="sub-icon">▶</span>
+                    </div>
+                    <div class="sub-content">
+                        <div class="interactive-grid">
+                            <div class="interactive-item"><span class="icon">🧩</span><span class="label">Найди пару (мемори)</span><span class="tooltip">переворачивай карточки</span></div>
+                            <div class="interactive-item"><span class="icon">❌⭕</span><span class="label">Крестики-нолики</span><span class="tooltip">играй с ботом</span></div>
+                            <div class="interactive-item"><span class="icon">🧠</span><span class="label">Запомни последовательность</span><span class="tooltip">повтори ряд цветов</span></div>
+                            <div class="interactive-item"><span class="icon">🔍</span><span class="label">Найди отличия</span><span class="tooltip">найди 5 отличий</span></div>
+                            <div class="interactive-item"><span class="icon">🌀</span><span class="label">Лабиринт</span><span class="tooltip">проведи до выхода</span></div>
+                            <div class="interactive-item"><span class="icon">🧮</span><span class="label">Судоку 4×4</span><span class="tooltip">заполни сетку</span></div>
+                            <div class="interactive-item"><span class="icon">⚓</span><span class="label">Морской бой 5×5</span><span class="tooltip">упрощённая версия</span></div>
+                            <div class="interactive-item"><span class="icon">💣</span><span class="label">Сапёр</span><span class="tooltip">мини-версия 5×5</span></div>
+                            <div class="interactive-item"><span class="icon">🎯</span><span class="label">Угадай эмоцию</span><span class="tooltip">угадай по фото</span></div>
+                            <div class="interactive-item"><span class="icon">📸</span><span class="label">Фото-викторина</span><span class="tooltip">угадай по части фото</span></div>
+                            <div class="interactive-item"><span class="icon">🔢</span><span class="label">Угадай число</span><span class="tooltip">угадай число 1–100</span></div>
+                            <div class="interactive-item"><span class="icon">🧩</span><span class="label">Составь слово</span><span class="tooltip">собери слово из букв</span></div>
+                            <div class="interactive-item"><span class="icon">🎲</span><span class="label">Кубик желаний</span><span class="tooltip">брось кубик → желание</span></div>
+                            <div class="interactive-item"><span class="icon">🎡</span><span class="label">Колесо фортуны</span><span class="tooltip">вращай → выпадает приз</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== КАТЕГОРИЯ 3: РОМАНТИКА ===== -->
+                <div class="sub-accordion">
+                    <div class="sub-header" onclick="toggleSub(this)">
+                        <span class="sub-title">
+                            <span class="icon">❤️</span> Романтические фишки
+                            <span class="count">13</span>
+                        </span>
+                        <span class="sub-icon">▶</span>
+                    </div>
+                    <div class="sub-content">
+                        <div class="interactive-grid">
+                            <div class="interactive-item"><span class="icon">💖</span><span class="label">100 причин любить</span><span class="tooltip">кликай → причина любви</span></div>
+                            <div class="interactive-item"><span class="icon">🌌</span><span class="label">Генератор свиданий</span><span class="tooltip">идея для свидания</span></div>
+                            <div class="interactive-item"><span class="icon">🎨</span><span class="label">Палитра настроения</span><span class="tooltip">цвет → настроение</span></div>
+                            <div class="interactive-item"><span class="icon">⏳</span><span class="label">Фото-таймер</span><span class="tooltip">фото через 10 секунд</span></div>
+                            <div class="interactive-item"><span class="icon">💌</span><span class="label">Свидание-сюрприз</span><span class="tooltip">конверт с идеей</span></div>
+                            <div class="interactive-item"><span class="icon">❓</span><span class="label">Вопросы для влюблённых</span><span class="tooltip">карточки с вопросами</span></div>
+                            <div class="interactive-item"><span class="icon">☀️</span><span class="label">Идеальный день</span><span class="tooltip">выбери варианты → план</span></div>
+                            <div class="interactive-item"><span class="icon">💋</span><span class="label">Календарь поцелуев</span><span class="tooltip">отмечай дни поцелуев</span></div>
+                            <div class="interactive-item"><span class="icon">🔐</span><span class="label">Секретный код</span><span class="tooltip">введи код → подарок</span></div>
+                            <div class="interactive-item"><span class="icon">📝</span><span class="label">Напиши письмо через год</span><span class="tooltip">сохраняется на год</span></div>
+                            <div class="interactive-item"><span class="icon">💕</span><span class="label">Калькулятор любви</span><span class="tooltip">процент совместимости</span></div>
+                            <div class="interactive-item"><span class="icon">🕯️</span><span class="label">Свечи желаний</span><span class="tooltip">зажги свечу → желание</span></div>
+                            <div class="interactive-item"><span class="icon">🎁</span><span class="label">Свидание вслепую</span><span class="tooltip">введи город → кафе</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== КАТЕГОРИЯ 4: ПОДАРКИ ===== -->
+                <div class="sub-accordion">
+                    <div class="sub-header" onclick="toggleSub(this)">
+                        <span class="sub-title">
+                            <span class="icon">🎁</span> Подарки и сюрпризы
+                            <span class="count">7</span>
+                        </span>
+                        <span class="sub-icon">▶</span>
+                    </div>
+                    <div class="sub-content">
+                        <div class="interactive-grid">
+                            <div class="interactive-item"><span class="icon">🎡</span><span class="label">Рулетка сюрпризов</span><span class="tooltip">вращай → выпадает подарок</span></div>
+                            <div class="interactive-item"><span class="icon">⏳</span><span class="label">Капсула времени</span><span class="tooltip">откроется через 5 лет</span></div>
+                            <div class="interactive-item"><span class="icon">🔐</span><span class="label">Подарок с секретом</span><span class="tooltip">выполни задание → открой</span></div>
+                            <div class="interactive-item"><span class="icon">🗺️</span><span class="label">Сундук с сокровищами</span><span class="tooltip">открой → цитата, фото</span></div>
+                            <div class="interactive-item"><span class="icon">📦</span><span class="label">Коробка сюрпризов</span><span class="tooltip">кликни → несколько вариантов</span></div>
+                            <div class="interactive-item"><span class="icon">📆</span><span class="label">Адвент-календарь</span><span class="tooltip">14 дней → подарок каждый день</span></div>
+                            <div class="interactive-item"><span class="icon">🎀</span><span class="label">Секретный подарок</span><span class="tooltip">нажми 10 раз → откроется</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== КАТЕГОРИЯ 5: КРЕАТИВ ===== -->
+                <div class="sub-accordion">
+                    <div class="sub-header" onclick="toggleSub(this)">
+                        <span class="sub-title">
+                            <span class="icon">🎨</span> Креативные фишки
+                            <span class="count">10</span>
+                        </span>
+                        <span class="sub-icon">▶</span>
+                    </div>
+                    <div class="sub-content">
+                        <div class="interactive-grid">
+                            <div class="interactive-item"><span class="icon">📝</span><span class="label">Генератор стихов</span><span class="tooltip">введи имя → стихотворение</span></div>
+                            <div class="interactive-item"><span class="icon">✍️</span><span class="label">Генератор подписей</span><span class="tooltip">введи тему → подпись</span></div>
+                            <div class="interactive-item"><span class="icon">😂</span><span class="label">Генератор мемов</span><span class="tooltip">вставь фото и текст → мем</span></div>
+                            <div class="interactive-item"><span class="icon">📸</span><span class="label">Фото-фильтры</span><span class="tooltip">ч/б, сепия, неон</span></div>
+                            <div class="interactive-item"><span class="icon">🎨</span><span class="label">Пиксель-арт</span><span class="tooltip">кликай на сетку → закрашивай</span></div>
+                            <div class="interactive-item"><span class="icon">☁️</span><span class="label">Облако слов</span><span class="tooltip">введи слова → облако</span></div>
+                            <div class="interactive-item"><span class="icon">🖼️</span><span class="label">Генератор открыток</span><span class="tooltip">фон, текст, стикеры</span></div>
+                            <div class="interactive-item"><span class="icon">✏️</span><span class="label">Совместный рисунок</span><span class="tooltip">рисуйте вдвоём</span></div>
+                            <div class="interactive-item"><span class="icon">🧩</span><span class="label">Пазл из фото</span><span class="tooltip">собери картинку</span></div>
+                            <div class="interactive-item"><span class="icon">✨</span><span class="label">Анимированный текст</span><span class="tooltip">текст летает и светится</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== КАТЕГОРИЯ 6: ИСТОРИИ ===== -->
+                <div class="sub-accordion">
+                    <div class="sub-header" onclick="toggleSub(this)">
+                        <span class="sub-title">
+                            <span class="icon">🧩</span> Интерактивные истории
+                            <span class="count">6</span>
+                        </span>
+                        <span class="sub-icon">▶</span>
+                    </div>
+                    <div class="sub-content">
+                        <div class="interactive-grid">
+                            <div class="interactive-item"><span class="icon">🗺️</span><span class="label">Квест для пары</span><span class="tooltip">5 шагов с заданиями</span></div>
+                            <div class="interactive-item"><span class="icon">📖</span><span class="label">Выбери своё приключение</span><span class="tooltip">история с развилками</span></div>
+                            <div class="interactive-item"><span class="icon">💌</span><span class="label">Дневник благодарности</span><span class="tooltip">запиши, за что благодарен</span></div>
+                            <div class="interactive-item"><span class="icon">📸</span><span class="label">Виртуальная фото-книга</span><span class="tooltip">листай как альбом</span></div>
+                            <div class="interactive-item"><span class="icon">📅</span><span class="label">Таймлайн</span><span class="tooltip">шкала с датами и фото</span></div>
+                            <div class="interactive-item"><span class="icon">📖</span><span class="label">Книга воспоминаний</span><span class="tooltip">листай с анимацией</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== КАТЕГОРИЯ 7: ОБЩЕНИЕ ===== -->
+                <div class="sub-accordion">
+                    <div class="sub-header" onclick="toggleSub(this)">
+                        <span class="sub-title">
+                            <span class="icon">💬</span> Общение и взаимодействие
+                            <span class="count">8</span>
+                        </span>
+                        <span class="sub-icon">▶</span>
+                    </div>
+                    <div class="sub-content">
+                        <div class="interactive-grid">
+                            <div class="interactive-item"><span class="icon">📖</span><span class="label">Гостевая книга</span><span class="tooltip">оставляй записи</span></div>
+                            <div class="interactive-item"><span class="icon">❓</span><span class="label">Вопрос дня</span><span class="tooltip">каждый день новый вопрос</span></div>
+                            <div class="interactive-item"><span class="icon">🎯</span><span class="label">Совместные цели</span><span class="tooltip">добавь цель и прогресс</span></div>
+                            <div class="interactive-item"><span class="icon">❤️</span><span class="label">Смайлик-реакция</span><span class="tooltip">лайк/сердечко на фото</span></div>
+                            <div class="interactive-item"><span class="icon">🎤</span><span class="label">Голосовое сообщение</span><span class="tooltip">запиши и отправь</span></div>
+                            <div class="interactive-item"><span class="icon">🤫</span><span class="label">Чат с анонимными вопросами</span><span class="tooltip">анонимно спрашивай</span></div>
+                            <div class="interactive-item"><span class="icon">🤗</span><span class="label">Обниматор</span><span class="tooltip">счётчик объятий</span></div>
+                            <div class="interactive-item"><span class="icon">💬</span><span class="label">Скажи слово</span><span class="tooltip">введи слово → угадай эмоцию</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== КАТЕГОРИЯ 8: ВРЕМЯ ===== -->
+                <div class="sub-accordion">
+                    <div class="sub-header" onclick="toggleSub(this)">
+                        <span class="sub-title">
+                            <span class="icon">⏳</span> Время и даты
+                            <span class="count">7</span>
+                        </span>
+                        <span class="sub-icon">▶</span>
+                    </div>
+                    <div class="sub-content">
+                        <div class="interactive-grid">
+                            <div class="interactive-item"><span class="icon">⏱️</span><span class="label">Таймер до важной даты</span><span class="tooltip">до ДР, годовщины</span></div>
+                            <div class="interactive-item"><span class="icon">💕</span><span class="label">Сколько мы вместе</span><span class="tooltip">годы, месяцы, дни, часы</span></div>
+                            <div class="interactive-item"><span class="icon">📅</span><span class="label">Календарь с отметками</span><span class="tooltip">отмечай дни вместе</span></div>
+                            <div class="interactive-item"><span class="icon">⏱️</span><span class="label">Секундомер</span><span class="tooltip">засекай время вместе</span></div>
+                            <div class="interactive-item"><span class="icon">📆</span><span class="label">Календарь событий</span><span class="tooltip">даты с фото и описанием</span></div>
+                            <div class="interactive-item"><span class="icon">🎂</span><span class="label">Таймер до ДР</span><span class="tooltip">сколько осталось до ДР</span></div>
+                            <div class="interactive-item"><span class="icon">⏳</span><span class="label">Сколько дней вместе</span><span class="tooltip">счётчик дней</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== КАТЕГОРИЯ 9: ГЕОГРАФИЯ ===== -->
+                <div class="sub-accordion">
+                    <div class="sub-header" onclick="toggleSub(this)">
+                        <span class="sub-title">
+                            <span class="icon">🌍</span> География и путешествия
+                            <span class="count">5</span>
+                        </span>
+                        <span class="sub-icon">▶</span>
+                    </div>
+                    <div class="sub-content">
+                        <div class="interactive-grid">
+                            <div class="interactive-item"><span class="icon">🗺️</span><span class="label">Карта путешествий</span><span class="tooltip">отметь города/страны</span></div>
+                            <div class="interactive-item"><span class="icon">📍</span><span class="label">Маршрут свидания</span><span class="tooltip">отметь точки маршрута</span></div>
+                            <div class="interactive-item"><span class="icon">📌</span><span class="label">Фото по координатам</span><span class="tooltip">фото на карте</span></div>
+                            <div class="interactive-item"><span class="icon">✈️</span><span class="label">Куда поехать</span><span class="tooltip">генератор городов</span></div>
+                            <div class="interactive-item"><span class="icon">🗺️</span><span class="label">Карта желаний</span><span class="tooltip">места, куда хотите поехать</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== КАТЕГОРИЯ 10: ГЕНЕРАТОРЫ ===== -->
+                <div class="sub-accordion">
+                    <div class="sub-header" onclick="toggleSub(this)">
+                        <span class="sub-title">
+                            <span class="icon">🤖</span> Генераторы и рандом
+                            <span class="count">10</span>
+                        </span>
+                        <span class="sub-icon">▶</span>
+                    </div>
+                    <div class="sub-content">
+                        <div class="interactive-grid">
+                            <div class="interactive-item"><span class="icon">🌌</span><span class="label">Генератор свиданий</span><span class="tooltip">случайная идея</span></div>
+                            <div class="interactive-item"><span class="icon">💋</span><span class="label">Генератор романтических жестов</span><span class="tooltip">«сделай чай», «оставь записку»</span></div>
+                            <div class="interactive-item"><span class="icon">🎁</span><span class="label">Генератор подарков</span><span class="tooltip">идеи по бюджету</span></div>
+                            <div class="interactive-item"><span class="icon">👶</span><span class="label">Генератор имён для детей</span><span class="tooltip">смешные варианты</span></div>
+                            <div class="interactive-item"><span class="icon">🦸</span><span class="label">Генератор псевдонимов</span><span class="tooltip">смешные прозвища</span></div>
+                            <div class="interactive-item"><span class="icon">🤪</span><span class="label">Генератор оправданий</span><span class="tooltip">смешные оправдания</span></div>
+                            <div class="interactive-item"><span class="icon">🤖</span><span class="label">Комплименты для роботов</span><span class="tooltip">смешные комплименты</span></div>
+                            <div class="interactive-item"><span class="icon">🎲</span><span class="label">Генератор прозвищ</span><span class="tooltip">новые прозвища каждый день</span></div>
+                            <div class="interactive-item"><span class="icon">💕</span><span class="label">Калькулятор любви</span><span class="tooltip">процент совместимости</span></div>
+                            <div class="interactive-item"><span class="icon">🎲</span><span class="label">Кубик желаний</span><span class="tooltip">брось → желание</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== КАТЕГОРИЯ 11: МУЗЫКА ===== -->
+                <div class="sub-accordion">
+                    <div class="sub-header" onclick="toggleSub(this)">
+                        <span class="sub-title">
+                            <span class="icon">🎶</span> Музыка и звуки
+                            <span class="count">6</span>
+                        </span>
+                        <span class="sub-icon">▶</span>
+                    </div>
+                    <div class="sub-content">
+                        <div class="interactive-grid">
+                            <div class="interactive-item"><span class="icon">🎵</span><span class="label">Музыкальная открытка</span><span class="tooltip">песня при открытии</span></div>
+                            <div class="interactive-item"><span class="icon">🌧️</span><span class="label">Звуки природы</span><span class="tooltip">шум дождя, леса, моря</span></div>
+                            <div class="interactive-item"><span class="icon">🎤</span><span class="label">Караоке</span><span class="tooltip">текст с подсветкой</span></div>
+                            <div class="interactive-item"><span class="icon">🔊</span><span class="label">Звуки по кнопке</span><span class="tooltip">поцелуй, смех, аплодисменты</span></div>
+                            <div class="interactive-item"><span class="icon">💿</span><span class="label">Плейлист-капсула</span><span class="tooltip">песня в определённый день</span></div>
+                            <div class="interactive-item"><span class="icon">🎵</span><span class="label">Музыкальный плейлист для пары</span><span class="tooltip">список песен с фактами</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== КАТЕГОРИЯ 12: СЛОЖНЫЕ ИГРЫ ===== -->
+                <div class="sub-accordion">
+                    <div class="sub-header" onclick="toggleSub(this)">
+                        <span class="sub-title">
+                            <span class="icon">🔥</span> Сложные игры
+                            <span class="count">7</span>
+                        </span>
+                        <span class="sub-icon">▶</span>
+                    </div>
+                    <div class="sub-content">
+                        <div class="interactive-grid">
+                            <div class="interactive-item"><span class="icon">🐍</span><span class="label">Змейка</span><span class="tooltip">классическая змейка</span></div>
+                            <div class="interactive-item"><span class="icon">🧱</span><span class="label">Тетрис</span><span class="tooltip">мини-тетрис для двоих</span></div>
+                            <div class="interactive-item"><span class="icon">🔢</span><span class="label">2048</span><span class="tooltip">соединяй плитки</span></div>
+                            <div class="interactive-item"><span class="icon">🎯</span><span class="label">Кликер</span><span class="tooltip">нажимай → счётчик растёт</span></div>
+                            <div class="interactive-item"><span class="icon">🎯</span><span class="label">Дартс</span><span class="tooltip">попади в цель</span></div>
+                            <div class="interactive-item"><span class="icon">🧩</span><span class="label">Судоку</span><span class="tooltip">полная версия</span></div>
+                            <div class="interactive-item"><span class="icon">🎲</span><span class="label">Кости</span><span class="tooltip">брось кости</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /mainContent -->
+        </div><!-- /interactive-block -->
 
         <!-- ============================================================ -->
         <!-- ===== ДОПОЛНИТЕЛЬНЫЕ ФИШКИ ===== -->
@@ -943,12 +1270,27 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== СКРИПТ АККОРДЕОНА ===== -->
+    <!-- ===== СКРИПТЫ АККОРДЕОНОВ ===== -->
     <!-- ============================================================ -->
     <script>
-        function toggleAccordion() {
-            const content = document.getElementById('accordionContent');
-            const icon = document.getElementById('accordionIcon');
+        // ===== ГЛАВНЫЙ АККОРДЕОН =====
+        function toggleMainAccordion() {
+            const content = document.getElementById('mainContent');
+            const icon = document.getElementById('mainIcon');
+
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                icon.textContent = '▶';
+            } else {
+                content.classList.add('open');
+                icon.textContent = '▼';
+            }
+        }
+
+        // ===== ВЛОЖЕННЫЕ АККОРДЕОНЫ (категории) =====
+        function toggleSub(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.sub-icon');
 
             if (content.classList.contains('open')) {
                 content.classList.remove('open');
