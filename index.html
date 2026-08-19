@@ -1,1252 +1,609 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎮 Интерактивная площадка — Все игры</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SQST ✦ Интерактивная площадка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <style>
+        /* ============================================================
+                   СБРОС И ПЕРЕМЕННЫЕ
+                ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --bg: #1a1818;
+            --card: rgba(30, 30, 38, 0.75);
+            --gold: #c9a96e;
+            --gold-light: #e8d5a3;
+            --gold-glow: rgba(201, 169, 110, 0.08);
+            --text: #f0ece6;
+            --text-muted: #a09888;
+            --border: rgba(201, 169, 110, 0.08);
+            --shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            --radius: 28px;
+            --transition: 0.35s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Georgia', 'Segoe UI', cursive;
-            padding: 20px;
-            background: #3d2e2e;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            position: relative;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 30px 20px;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('fon.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            filter: brightness(0.6) blur(3px);
-            z-index: 0;
+        /* ============================================================
+                   КОНТЕЙНЕР
+                ============================================================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        /* ===== ГЛАВНАЯ СЕТКА ===== */
-        .grid {
-            max-width: 1400px;
-            width: 100%;
-            position: relative;
-            z-index: 1;
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 16px;
-            padding: 10px;
-        }
-
-        .block {
-            border-radius: 24px;
-            padding: 16px 12px 18px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
+        /* ============================================================
+                   ШАПКА
+                ============================================================ */
+        .header {
             text-align: center;
-            gap: 6px;
-            color: #f0ecec;
-            border: 2px solid rgba(255, 255, 255, 0.06);
-            overflow: hidden;
+            padding: 30px 20px 10px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+        .header .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: var(--text);
+        }
+        .header .logo .gold {
+            color: var(--gold);
+        }
+        .header .logo small {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 300;
+            letter-spacing: 5px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: -4px;
         }
 
-        .block:hover {
-            transform: scale(1.02);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        .header .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 8px;
+            font-style: italic;
         }
 
-        .block .price-tag {
-            position: absolute;
-            top: 10px;
-            right: 12px;
-            background: rgba(255, 215, 0, 0.15);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 30px;
-            padding: 2px 12px;
-            font-size: 0.55rem;
-            font-weight: 600;
-            color: #f5d76e;
-            backdrop-filter: blur(4px);
-        }
-        .block .complexity {
-            position: absolute;
-            top: 10px;
-            left: 12px;
-            font-size: 0.7rem;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 2px 8px;
-            border-radius: 30px;
-            backdrop-filter: blur(4px);
-        }
-
-        .block-title {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            margin-bottom: 4px;
-        }
-
-        .interactive {
+        /* ============================================================
+                   ОГЛАВЛЕНИЕ (кликабельные якоря)
+                ============================================================ */
+        .toc {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            gap: 8px 18px;
+            padding: 16px 10px 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .toc a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+        .toc a:hover {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+        .toc .gold {
+            color: var(--gold);
+        }
+
+        /* ============================================================
+                   БЛОКИ С ИНТЕРАКТИВАМИ
+                ============================================================ */
+        .section {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 28px 25px 20px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .section:hover {
+            border-color: rgba(201, 169, 110, 0.15);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--text);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title .gold {
+            color: var(--gold);
+        }
+        .section-title .icon {
+            font-size: 1.8rem;
+        }
+        .section-title .count {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2px 12px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            margin-left: auto;
+        }
+
+        /* ===== СЕТКА ИНТЕРАКТИВОВ ===== */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .interactive-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 14px 12px 12px;
+            text-align: center;
+            transition: var(--transition);
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
             gap: 4px;
-            width: 100%;
-            margin-top: 2px;
         }
-
-        .interactive button {
+        .interactive-card:hover {
             background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 30px;
-            padding: 4px 12px;
-            color: #fff;
-            font-size: 0.65rem;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: 'Georgia', serif;
-            white-space: nowrap;
+            border-color: var(--border);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
-
-        .interactive button:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: scale(1.02);
+        .interactive-card .icon {
+            font-size: 1.8rem;
         }
-
-        .interactive .value {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #f5d76e;
-            min-width: 25px;
+        .interactive-card .name {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text);
         }
-
-        .interactive .label {
+        .interactive-card .desc {
             font-size: 0.55rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+            max-width: 140px;
+        }
+
+        /* ===== ФУТЕР ===== */
+        .footer {
+            text-align: center;
+            padding: 30px 20px 10px;
+            border-top: 1px solid var(--border);
+            margin-top: 10px;
+        }
+        .footer .brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            letter-spacing: 4px;
+            color: var(--text);
+        }
+        .footer .brand .gold {
+            color: var(--gold);
+        }
+        .footer p {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            margin-top: 6px;
             opacity: 0.5;
         }
-
-        .interactive .emoji-big {
-            font-size: 1.6rem;
+        .footer .heart {
+            color: var(--gold);
         }
 
-        .block:nth-child(1) {
-            background: rgba(163, 124, 124, 0.35);
-            border-color: rgba(163, 124, 124, 0.25);
-            position: relative;
-        }
-        .block:nth-child(2) {
-            background: rgba(144, 113, 116, 0.35);
-            border-color: rgba(144, 113, 116, 0.25);
-            position: relative;
-        }
-        .block:nth-child(3) {
-            background: rgba(148, 124, 129, 0.35);
-            border-color: rgba(148, 124, 129, 0.25);
-            position: relative;
-        }
-        .block:nth-child(4) {
-            background: rgba(100, 68, 70, 0.35);
-            border-color: rgba(100, 68, 70, 0.25);
-            position: relative;
-        }
-        .block:nth-child(5) {
-            background: rgba(100, 76, 68, 0.35);
-            border-color: rgba(100, 76, 68, 0.25);
-            position: relative;
-        }
-        .block:nth-child(6) {
-            background: rgba(122, 98, 98, 0.35);
-            border-color: rgba(122, 98, 98, 0.25);
-            position: relative;
-        }
-        .block:nth-child(7) {
-            background: rgba(76, 51, 55, 0.35);
-            border-color: rgba(76, 51, 55, 0.25);
-            position: relative;
-        }
-        .block:nth-child(8) {
-            background: rgba(76, 60, 52, 0.35);
-            border-color: rgba(76, 60, 52, 0.25);
-            position: relative;
-        }
-        .block:nth-child(9) {
-            background: rgba(77, 61, 61, 0.35);
-            border-color: rgba(77, 61, 61, 0.25);
-            position: relative;
-        }
-        .block:nth-child(10) {
-            background: rgba(120, 90, 90, 0.3);
-            border-color: rgba(120, 90, 90, 0.2);
-            position: relative;
-        }
-        .block:nth-child(11) {
-            background: rgba(130, 80, 90, 0.3);
-            border-color: rgba(130, 80, 90, 0.2);
-            position: relative;
-        }
-        .block:nth-child(12) {
-            background: rgba(100, 100, 120, 0.3);
-            border-color: rgba(100, 100, 120, 0.2);
-            position: relative;
-        }
-        .block:nth-child(13) {
-            background: rgba(140, 100, 80, 0.3);
-            border-color: rgba(140, 100, 80, 0.2);
-            position: relative;
-        }
-        .block:nth-child(14) {
-            background: rgba(80, 60, 100, 0.3);
-            border-color: rgba(80, 60, 100, 0.2);
-            position: relative;
-        }
-        .block:nth-child(15) {
-            background: rgba(60, 80, 100, 0.3);
-            border-color: rgba(60, 80, 100, 0.2);
-            position: relative;
-        }
-        .block:nth-child(16) {
-            background: rgba(100, 80, 60, 0.3);
-            border-color: rgba(100, 80, 60, 0.2);
-            position: relative;
-        }
-        .block:nth-child(17) {
-            background: rgba(80, 100, 80, 0.3);
-            border-color: rgba(80, 100, 80, 0.2);
-            position: relative;
-        }
-        .block:nth-child(18) {
-            background: rgba(100, 60, 60, 0.3);
-            border-color: rgba(100, 60, 60, 0.2);
-            position: relative;
-        }
-
-        .dice {
-            font-size: 1.8rem;
-        }
-        .target {
-            font-size: 1.8rem;
-            cursor: pointer;
-        }
-        .candle {
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .candle.extinct {
-            opacity: 0.2;
-            transform: scale(0.8);
-        }
-        .balloon {
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .balloon.popped {
-            opacity: 0.15;
-            transform: scale(0.5);
-            pointer-events: none;
-        }
-        .mood-slider {
-            width: 80px;
-            accent-color: #f5d76e;
-        }
-        .mood-display {
-            font-size: 1.4rem;
-        }
-        .gift-box {
-            font-size: 1.8rem;
-            cursor: pointer;
-        }
-        .star-wish {
-            font-size: 1.8rem;
-            cursor: pointer;
-        }
-        .fortune-text {
-            font-size: 0.7rem;
-            font-style: italic;
-            color: #f7b1ca;
-            min-height: 25px;
-        }
-        .wheel-result {
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: #f5d76e;
-            min-height: 25px;
-        }
-        .timer-display {
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: #f5d76e;
-        }
-        .clock-display {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #fff;
-        }
-        .lyric-box {
-            font-size: 0.65rem;
-            font-style: italic;
-            color: #f7b1ca;
-            padding: 4px 8px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.02);
-            max-width: 140px;
-            word-wrap: break-word;
-            cursor: pointer;
-        }
-
-        .puzzle-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3px;
-            width: 90px;
-            margin: 0 auto;
-        }
-        .puzzle-cell {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 4px;
-            padding: 4px 0;
-            text-align: center;
-            font-size: 0.7rem;
-            color: #fff;
-            cursor: pointer;
-        }
-        .puzzle-cell:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .puzzle-cell.done {
-            background: rgba(255, 215, 0, 0.1);
-            border-color: #f5d76e;
-        }
-
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            width: 100%;
-            max-width: 120px;
-            margin: 0 auto;
-        }
-        .photo-grid img {
-            width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .photo-grid img:hover {
-            transform: scale(1.05);
-        }
-
-        .game-photo-item {
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            aspect-ratio: 1/1;
-            cursor: pointer;
-            transition: 0.3s;
-            position: relative;
-            width: 100%;
-            max-width: 60px;
-            margin: 0 auto;
-        }
-        .game-photo-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .game-photo-item .click-hint {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.2rem;
-            opacity: 0;
-            transition: 0.3s;
-            pointer-events: none;
-        }
-        .game-photo-item:hover .click-hint {
-            opacity: 0.8;
-        }
-        .game-photo-item.clicked {
-            transform: scale(0.95);
-            border-color: #f5d76e;
-        }
-
-        .balloon-photo {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid #eddfb0;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .balloon-photo:hover {
-            transform: scale(1.08);
-            border-color: #f5d76e;
-        }
-        .balloon-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .canvas-container {
-            width: 80px;
-            height: 80px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            overflow: hidden;
-            background: rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            margin: 0 auto;
-        }
-        .canvas-container canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .candle-row {
-            display: flex;
-            gap: 4px;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-        .balloon-row {
-            display: flex;
-            gap: 4px;
-            justify-content: center;
-            font-size: 1.4rem;
-        }
-
-        @media (max-width: 1000px) {
-            .grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
+        /* ============================================================
+                   АДАПТАЦИЯ
+                ============================================================ */
         @media (max-width: 700px) {
+            body {
+                padding: 14px 10px;
+            }
+            .header .logo {
+                font-size: 2rem;
+            }
+            .header .logo small {
+                font-size: 0.5rem;
+                letter-spacing: 3px;
+            }
+            .section {
+                padding: 20px 14px 16px;
+                border-radius: 20px;
+            }
+            .section-title {
+                font-size: 1.2rem;
+                flex-wrap: wrap;
+            }
+            .section-title .count {
+                font-size: 0.5rem;
+                margin-left: 0;
+            }
             .grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 8px;
             }
-            .block {
-                min-height: 160px;
-                padding: 12px 8px 14px;
-                border-radius: 18px;
+            .interactive-card {
+                min-height: 80px;
+                padding: 10px 8px;
             }
-            .block-title {
-                font-size: 0.8rem;
+            .interactive-card .icon {
+                font-size: 1.4rem;
             }
-            .interactive button {
-                font-size: 0.55rem;
-                padding: 3px 8px;
-            }
-            .photo-grid {
-                max-width: 90px;
-            }
-            .game-photo-item {
-                max-width: 45px;
-            }
-            .balloon-photo {
-                width: 40px;
-                height: 40px;
-            }
-            .puzzle-container {
-                width: 70px;
-            }
-            .puzzle-cell {
+            .interactive-card .name {
                 font-size: 0.6rem;
-                padding: 3px 0;
+            }
+            .interactive-card .desc {
+                font-size: 0.5rem;
+            }
+            .toc a {
+                font-size: 0.55rem;
+            }
+            .toc {
+                gap: 4px 12px;
+                padding: 10px 4px 8px;
             }
         }
-        @media (max-width: 450px) {
+
+        @media (max-width: 430px) {
             .grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
-                padding: 4px;
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+                gap: 6px;
             }
-            .block {
-                min-height: 140px;
-                padding: 10px 6px 12px;
-                border-radius: 14px;
+            .interactive-card {
+                min-height: 70px;
+                padding: 8px 6px;
             }
-            .block-title {
-                font-size: 0.7rem;
+            .interactive-card .icon {
+                font-size: 1.2rem;
             }
-            .interactive button {
+            .interactive-card .name {
                 font-size: 0.5rem;
-                padding: 2px 6px;
             }
-            .interactive .value {
-                font-size: 0.8rem;
-            }
-            .interactive .label {
+            .interactive-card .desc {
                 font-size: 0.45rem;
             }
-            .price-tag {
-                font-size: 0.4rem;
-                padding: 1px 6px;
-            }
-            .complexity {
-                font-size: 0.5rem;
-                padding: 1px 6px;
+            .section-title {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== ОСНОВНАЯ СЕТКА (18 блоков) ===== -->
-    <div class="grid">
+    <div class="container">
 
         <!-- ============================================================ -->
-        <!-- БЛОК 1: 🟢 ЛЁГКИЙ — 200 ₽ — Генератор свиданий -->
+        <!-- ШАПКА -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟢 лёгкий</span>
-            <span class="price-tag">200 ₽</span>
-            <div class="block-title">🌌 Генератор свиданий</div>
-            <div class="interactive">
-                <button onclick="generateDate()">🎲 Новая идея</button>
-                <span class="label" id="dateDisplay">нажми</span>
+        <header class="header">
+            <div class="logo">
+                SQST<span class="gold">✦</span>
+                <small>сайты-свидания</small>
             </div>
-            <div class="interactive">
-                <span class="label" style="font-size:0.6rem; color:#f7b1ca;" id="dateIdea">✨ Пикник на крыше</span>
-            </div>
-        </div>
+            <div class="subtitle">✨ Интерактивная площадка — 89 фишек для вашего сайта ✨</div>
+        </header>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 2: 🟢 ЛЁГКИЙ — 200 ₽ — 100 причин любить -->
+        <!-- ОГЛАВЛЕНИЕ (якоря) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟢 лёгкий</span>
-            <span class="price-tag">200 ₽</span>
-            <div class="block-title">💕 100 причин любить</div>
-            <div class="interactive">
-                <button onclick="showReason()">💖 Показать причину</button>
-                <span class="label" id="reasonDisplay">нажми</span>
-            </div>
-        </div>
+        <nav class="toc">
+            <a href="#sec1">🎲 Гадания</a>
+            <a href="#sec2">🎮 Игры на память</a>
+            <a href="#sec3">❤️ Романтика</a>
+            <a href="#sec4">🎁 Подарки</a>
+            <a href="#sec5">🎨 Креатив</a>
+            <a href="#sec6">🧩 Истории</a>
+            <a href="#sec7">💬 Общение</a>
+            <a href="#sec8">⏳ Время</a>
+            <a href="#sec9">🌍 География</a>
+            <a href="#sec10">🤖 Генераторы</a>
+            <a href="#sec11">🎶 Музыка</a>
+            <a href="#sec12">🔥 Сложные игры</a>
+        </nav>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 3: 🟢 ЛЁГКИЙ — 250 ₽ — Палитра настроения -->
+        <!-- БЛОК 1: 🎲 ГАДАНИЯ И ПРЕДСКАЗАНИЯ (6 шт.) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟢 лёгкий</span>
-            <span class="price-tag">250 ₽</span>
-            <div class="block-title">🎨 Палитра настроения</div>
-            <div class="interactive">
-                <input type="color" value="#f5d76e" onchange="updateMoodColor(this)" style="width:40px;height:40px;border-radius:50%;border:2px solid rgba(255,255,255,0.1);cursor:pointer;background:transparent;">
-                <span class="label" id="moodColorDisplay">выбери цвет</span>
+        <section class="section" id="sec1">
+            <div class="section-title">
+                <span class="icon">🎲</span>
+                Гадания и предсказания
+                <span class="count">6</span>
             </div>
-        </div>
+            <div class="grid">
+                <div class="interactive-card"><span class="icon">🔮</span><span class="name">Магический шар</span><span class="desc">Задай вопрос → получи ответ</span></div>
+                <div class="interactive-card"><span class="icon">📖</span><span class="name">Книга судьбы</span><span class="desc">Открой случайную страницу</span></div>
+                <div class="interactive-card"><span class="icon">🌸</span><span class="name">Гадание на ромашке</span><span class="desc">Отрывай лепестки: любит/не любит</span></div>
+                <div class="interactive-card"><span class="icon">🕰️</span><span class="name">Маятник</span><span class="desc">Кликни → качается и даёт «да/нет»</span></div>
+                <div class="interactive-card"><span class="icon">🌟</span><span class="name">Оракул</span><span class="desc">Развёрнутое предсказание</span></div>
+                <div class="interactive-card"><span class="icon">🪨</span><span class="name">Гадание на рунах</span><span class="desc">Брось руны → узнай значение</span></div>
+            </div>
+        </section>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 4: 🟢 ЛЁГКИЙ — 250 ₽ — Генератор комплиментов для роботов -->
+        <!-- БЛОК 2: 🎮 ИГРЫ НА ВНИМАНИЕ И ПАМЯТЬ (14 шт.) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟢 лёгкий</span>
-            <span class="price-tag">250 ₽</span>
-            <div class="block-title">🤖 Комплименты для роботов</div>
-            <div class="interactive">
-                <button onclick="robotCompliment()">🤖 Сказать</button>
-                <span class="label" id="robotComplimentDisplay">нажми</span>
+        <section class="section" id="sec2">
+            <div class="section-title">
+                <span class="icon">🎮</span>
+                Игры на внимание и память
+                <span class="count">14</span>
             </div>
-        </div>
+            <div class="grid">
+                <div class="interactive-card"><span class="icon">🧩</span><span class="name">Найди пару (мемори)</span><span class="desc">Переворачивай карточки</span></div>
+                <div class="interactive-card"><span class="icon">❌⭕</span><span class="name">Крестики-нолики</span><span class="desc">Играй с ботом</span></div>
+                <div class="interactive-card"><span class="icon">🧠</span><span class="name">Запомни последовательность</span><span class="desc">Повтори ряд цветов/звуков</span></div>
+                <div class="interactive-card"><span class="icon">🔍</span><span class="name">Найди отличия</span><span class="desc">Найди 5 отличий</span></div>
+                <div class="interactive-card"><span class="icon">🌀</span><span class="name">Лабиринт</span><span class="desc">Проведи до выхода</span></div>
+                <div class="interactive-card"><span class="icon">🧮</span><span class="name">Судоку 4×4</span><span class="desc">Заполни сетку</span></div>
+                <div class="interactive-card"><span class="icon">⚓</span><span class="name">Морской бой 5×5</span><span class="desc">Упрощённая версия</span></div>
+                <div class="interactive-card"><span class="icon">💣</span><span class="name">Сапёр</span><span class="desc">Мини-версия 5×5</span></div>
+                <div class="interactive-card"><span class="icon">🎯</span><span class="name">Угадай эмоцию</span><span class="desc">Угадай эмоцию по фото</span></div>
+                <div class="interactive-card"><span class="icon">📸</span><span class="name">Фото-викторина</span><span class="desc">Угадай по части фото</span></div>
+                <div class="interactive-card"><span class="icon">🔢</span><span class="name">Угадай число</span><span class="desc">Угадай число 1–100</span></div>
+                <div class="interactive-card"><span class="icon">🧩</span><span class="name">Составь слово</span><span class="desc">Собери слово из букв</span></div>
+                <div class="interactive-card"><span class="icon">🎲</span><span class="name">Кубик желаний</span><span class="desc">Брось кубик → желание</span></div>
+                <div class="interactive-card"><span class="icon">🎡</span><span class="name">Колесо фортуны</span><span class="desc">Вращай → выпадает приз</span></div>
+            </div>
+        </section>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 5: 🟢 ЛЁГКИЙ — 250 ₽ — Генератор оправданий -->
+        <!-- БЛОК 3: ❤️ РОМАНТИЧЕСКИЕ ФИШКИ (13 шт.) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟢 лёгкий</span>
-            <span class="price-tag">250 ₽</span>
-            <div class="block-title">🤪 Генератор оправданий</div>
-            <div class="interactive">
-                <button onclick="generateExcuse()">🔄 Новое оправдание</button>
-                <span class="label" id="excuseDisplay">нажми</span>
+        <section class="section" id="sec3">
+            <div class="section-title">
+                <span class="icon">❤️</span>
+                Романтические фишки
+                <span class="count">13</span>
             </div>
-        </div>
+            <div class="grid">
+                <div class="interactive-card"><span class="icon">💖</span><span class="name">100 причин любить</span><span class="desc">Кликай → причина любви</span></div>
+                <div class="interactive-card"><span class="icon">🌌</span><span class="name">Генератор свиданий</span><span class="desc">Идея для свидания</span></div>
+                <div class="interactive-card"><span class="icon">🎨</span><span class="name">Палитра настроения</span><span class="desc">Цвет → настроение</span></div>
+                <div class="interactive-card"><span class="icon">⏳</span><span class="name">Фото-таймер</span><span class="desc">Фото через 10 секунд</span></div>
+                <div class="interactive-card"><span class="icon">💌</span><span class="name">Свидание-сюрприз</span><span class="desc">Конверт с идеей</span></div>
+                <div class="interactive-card"><span class="icon">❓</span><span class="name">Вопросы для влюблённых</span><span class="desc">Карточки с вопросами</span></div>
+                <div class="interactive-card"><span class="icon">☀️</span><span class="name">Идеальный день</span><span class="desc">Выбери варианты → план</span></div>
+                <div class="interactive-card"><span class="icon">💋</span><span class="name">Календарь поцелуев</span><span class="desc">Отмечай дни поцелуев</span></div>
+                <div class="interactive-card"><span class="icon">🔐</span><span class="name">Секретный код</span><span class="desc">Введи код → подарок</span></div>
+                <div class="interactive-card"><span class="icon">📝</span><span class="name">Напиши письмо через год</span><span class="desc">Сохраняется на год</span></div>
+                <div class="interactive-card"><span class="icon">💕</span><span class="name">Калькулятор любви</span><span class="desc">Процент совместимости</span></div>
+                <div class="interactive-card"><span class="icon">🕯️</span><span class="name">Свечи желаний</span><span class="desc">Зажги свечу → желание</span></div>
+                <div class="interactive-card"><span class="icon">🎁</span><span class="name">Свидание вслепую</span><span class="desc">Введи город → кафе/парк</span></div>
+            </div>
+        </section>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 6: 🟢 ЛЁГКИЙ — 300 ₽ — Калькулятор любви -->
+        <!-- БЛОК 4: 🎁 ПОДАРКИ И СЮРПРИЗЫ (7 шт.) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟢 лёгкий</span>
-            <span class="price-tag">300 ₽</span>
-            <div class="block-title">💕 Калькулятор любви</div>
-            <div class="interactive">
-                <input type="text" id="name1" placeholder="Имя 1" style="width:50px;padding:2px 4px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#fff;font-size:0.6rem;">
-                <input type="text" id="name2" placeholder="Имя 2" style="width:50px;padding:2px 4px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#fff;font-size:0.6rem;">
-                <button onclick="calculateLove()">💘</button>
-                <span class="label" id="loveResult">введи имена</span>
+        <section class="section" id="sec4">
+            <div class="section-title">
+                <span class="icon">🎁</span>
+                Подарки и сюрпризы
+                <span class="count">7</span>
             </div>
-        </div>
+            <div class="grid">
+                <div class="interactive-card"><span class="icon">🎡</span><span class="name">Рулетка сюрпризов</span><span class="desc">Вращай → выпадает подарок</span></div>
+                <div class="interactive-card"><span class="icon">⏳</span><span class="name">Капсула времени</span><span class="desc">Откроется через 5 лет</span></div>
+                <div class="interactive-card"><span class="icon">🔐</span><span class="name">Подарок с секретом</span><span class="desc">Выполни задание → открой</span></div>
+                <div class="interactive-card"><span class="icon">🗺️</span><span class="name">Сундук с сокровищами</span><span class="desc">Открой → цитата, фото, песня</span></div>
+                <div class="interactive-card"><span class="icon">📦</span><span class="name">Коробка сюрпризов</span><span class="desc">Кликни → несколько вариантов</span></div>
+                <div class="interactive-card"><span class="icon">📆</span><span class="name">Адвент-календарь</span><span class="desc">14 дней → подарок каждый день</span></div>
+                <div class="interactive-card"><span class="icon">🎀</span><span class="name">Секретный подарок</span><span class="desc">Нажми 10 раз → откроется</span></div>
+            </div>
+        </section>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 7: 🟡 СРЕДНИЙ — 500 ₽ — Секретный код -->
+        <!-- БЛОК 5: 🎨 КРЕАТИВНЫЕ ФИШКИ (10 шт.) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟡 средний</span>
-            <span class="price-tag">500 ₽</span>
-            <div class="block-title">🔐 Секретный код</div>
-            <div class="interactive">
-                <input type="text" id="secretCode" placeholder="введи код" style="width:70px;padding:2px 4px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#fff;font-size:0.6rem;">
-                <button onclick="checkSecret()">🔓</button>
-                <span class="label" id="secretResult">введи код</span>
+        <section class="section" id="sec5">
+            <div class="section-title">
+                <span class="icon">🎨</span>
+                Креативные фишки
+                <span class="count">10</span>
             </div>
-            <div class="interactive">
-                <span class="label" style="font-size:0.5rem;opacity:0.3;">подсказка: дата знакомства (ддмм)</span>
+            <div class="grid">
+                <div class="interactive-card"><span class="icon">📝</span><span class="name">Генератор стихов</span><span class="desc">Введи имя → стихотворение</span></div>
+                <div class="interactive-card"><span class="icon">✍️</span><span class="name">Генератор подписей</span><span class="desc">Введи тему → подпись</span></div>
+                <div class="interactive-card"><span class="icon">😂</span><span class="name">Генератор мемов</span><span class="desc">Вставь фото и текст → мем</span></div>
+                <div class="interactive-card"><span class="icon">📸</span><span class="name">Фото-фильтры</span><span class="desc">Ч/Б, сепия, неон</span></div>
+                <div class="interactive-card"><span class="icon">🎨</span><span class="name">Пиксель-арт</span><span class="desc">Кликай на сетку → закрашивай</span></div>
+                <div class="interactive-card"><span class="icon">☁️</span><span class="name">Облако слов</span><span class="desc">Введи слова → облако</span></div>
+                <div class="interactive-card"><span class="icon">🖼️</span><span class="name">Генератор открыток</span><span class="desc">Фон, текст, стикеры</span></div>
+                <div class="interactive-card"><span class="icon">✏️</span><span class="name">Совместный рисунок</span><span class="desc">Рисуйте вдвоём</span></div>
+                <div class="interactive-card"><span class="icon">🧩</span><span class="name">Пазл из фото</span><span class="desc">Собери картинку</span></div>
+                <div class="interactive-card"><span class="icon">✨</span><span class="name">Анимированный текст</span><span class="desc">Текст летает и светится</span></div>
             </div>
-        </div>
+        </section>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 8: 🟡 СРЕДНИЙ — 500 ₽ — Капсула времени -->
+        <!-- БЛОК 6: 🧩 ИНТЕРАКТИВНЫЕ ИСТОРИИ (6 шт.) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟡 средний</span>
-            <span class="price-tag">500 ₽</span>
-            <div class="block-title">⏳ Капсула времени</div>
-            <div class="interactive">
-                <button onclick="openTimeCapsule()">📦 Открыть</button>
-                <span class="label" id="capsuleDisplay">нажми</span>
+        <section class="section" id="sec6">
+            <div class="section-title">
+                <span class="icon">🧩</span>
+                Интерактивные истории
+                <span class="count">6</span>
             </div>
-            <div class="interactive">
-                <span class="label" style="font-size:0.5rem;opacity:0.3;" id="capsuleDate">откроется через 5 лет</span>
+            <div class="grid">
+                <div class="interactive-card"><span class="icon">🗺️</span><span class="name">Квест для пары</span><span class="desc">5 шагов с заданиями</span></div>
+                <div class="interactive-card"><span class="icon">📖</span><span class="name">Выбери своё приключение</span><span class="desc">История с развилками</span></div>
+                <div class="interactive-card"><span class="icon">💌</span><span class="name">Дневник благодарности</span><span class="desc">Запиши, за что благодарен</span></div>
+                <div class="interactive-card"><span class="icon">📸</span><span class="name">Виртуальная фото-книга</span><span class="desc">Листай как альбом</span></div>
+                <div class="interactive-card"><span class="icon">📅</span><span class="name">Таймлайн</span><span class="desc">Шкала с датами и фото</span></div>
+                <div class="interactive-card"><span class="icon">📖</span><span class="name">Книга воспоминаний</span><span class="desc">Листай с анимацией</span></div>
             </div>
-        </div>
+        </section>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 9: 🟡 СРЕДНИЙ — 500 ₽ — Календарь поцелуев -->
+        <!-- БЛОК 7: 💬 ОБЩЕНИЕ И ВЗАИМОДЕЙСТВИЕ (8 шт.) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟡 средний</span>
-            <span class="price-tag">500 ₽</span>
-            <div class="block-title">💋 Календарь поцелуев</div>
-            <div class="interactive">
-                <button onclick="addKiss()">💋 Добавить поцелуй</button>
-                <span class="value" id="kissCount">0</span>
-                <span class="label">поцелуев</span>
+        <section class="section" id="sec7">
+            <div class="section-title">
+                <span class="icon">💬</span>
+                Общение и взаимодействие
+                <span class="count">8</span>
             </div>
-            <div class="interactive">
-                <span class="label" id="kissDate" style="font-size:0.5rem;">сегодня: 0</span>
+            <div class="grid">
+                <div class="interactive-card"><span class="icon">📖</span><span class="name">Гостевая книга</span><span class="desc">Оставляй записи</span></div>
+                <div class="interactive-card"><span class="icon">❓</span><span class="name">Вопрос дня</span><span class="desc">Каждый день новый вопрос</span></div>
+                <div class="interactive-card"><span class="icon">🎯</span><span class="name">Совместные цели</span><span class="desc">Добавь цель и прогресс</span></div>
+                <div class="interactive-card"><span class="icon">❤️</span><span class="name">Смайлик-реакция</span><span class="desc">Лайк/сердечко на фото</span></div>
+                <div class="interactive-card"><span class="icon">🎤</span><span class="name">Голосовое сообщение</span><span class="desc">Запиши и отправь</span></div>
+                <div class="interactive-card"><span class="icon">🤫</span><span class="name">Чат с анонимными вопросами</span><span class="desc">Анонимно спрашивай</span></div>
+                <div class="interactive-card"><span class="icon">🤗</span><span class="name">Обниматор</span><span class="desc">Счётчик объятий</span></div>
+                <div class="interactive-card"><span class="icon">💬</span><span class="name">Скажи слово</span><span class="desc">Введи слово → угадай эмоцию</span></div>
             </div>
-        </div>
+        </section>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 10: 🟡 СРЕДНИЙ — 600 ₽ — Рулетка с сюрпризами -->
+        <!-- БЛОК 8: ⏳ ВРЕМЯ И ДАТЫ (7 шт.) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟡 средний</span>
-            <span class="price-tag">600 ₽</span>
-            <div class="block-title">🎡 Рулетка сюрпризов</div>
-            <div class="interactive">
-                <button onclick="spinSurprise()">🎡 Крутить</button>
-                <span class="label" id="surpriseResult">нажми</span>
+        <section class="section" id="sec8">
+            <div class="section-title">
+                <span class="icon">⏳</span>
+                Время и даты
+                <span class="count">7</span>
             </div>
-        </div>
+            <div class="grid">
+                <div class="interactive-card"><span class="icon">⏱️</span><span class="name">Таймер до важной даты</span><span class="desc">До ДР, годовщины</span></div>
+                <div class="interactive-card"><span class="icon">💕</span><span class="name">Сколько мы вместе</span><span class="desc">Годы, месяцы, дни, часы</span></div>
+                <div class="interactive-card"><span class="icon">📅</span><span class="name">Календарь с отметками</span><span class="desc">Отмечай дни вместе</span></div>
+                <div class="interactive-card"><span class="icon">⏱️</span><span class="name">Секундомер</span><span class="desc">Засекай время вместе</span></div>
+                <div class="interactive-card"><span class="icon">📆</span><span class="name">Календарь событий</span><span class="desc">Даты с фото и описанием</span></div>
+                <div class="interactive-card"><span class="icon">🎂</span><span class="name">Таймер до ДР</span><span class="desc">Сколько осталось до ДР</span></div>
+                <div class="interactive-card"><span class="icon">⏳</span><span class="name">Сколько дней вместе</span><span class="desc">Счётчик дней</span></div>
+            </div>
+        </section>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 11: 🟡 СРЕДНИЙ — 600 ₽ — Магический шар -->
+        <!-- БЛОК 9: 🌍 ГЕОГРАФИЯ И ПУТЕШЕСТВИЯ (5 шт.) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟡 средний</span>
-            <span class="price-tag">600 ₽</span>
-            <div class="block-title">🔮 Магический шар</div>
-            <div class="interactive">
-                <input type="text" id="questionInput" placeholder="задай вопрос" style="width:80px;padding:2px 4px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#fff;font-size:0.6rem;">
-                <button onclick="askMagicBall()">🔮</button>
-                <span class="label" id="magicAnswer">нажми</span>
+        <section class="section" id="sec9">
+            <div class="section-title">
+                <span class="icon">🌍</span>
+                География и путешествия
+                <span class="count">5</span>
             </div>
-        </div>
+            <div class="grid">
+                <div class="interactive-card"><span class="icon">🗺️</span><span class="name">Карта путешествий</span><span class="desc">Отметь города/страны</span></div>
+                <div class="interactive-card"><span class="icon">📍</span><span class="name">Маршрут свидания</span><span class="desc">Отметь точки маршрута</span></div>
+                <div class="interactive-card"><span class="icon">📌</span><span class="name">Фото по координатам</span><span class="desc">Фото на карте</span></div>
+                <div class="interactive-card"><span class="icon">✈️</span><span class="name">Куда поехать</span><span class="desc">Генератор городов</span></div>
+                <div class="interactive-card"><span class="icon">🗺️</span><span class="name">Карта желаний</span><span class="desc">Места, куда хотите поехать</span></div>
+            </div>
+        </section>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 12: 🟡 СРЕДНИЙ — 700 ₽ — Книга судьбы -->
+        <!-- БЛОК 10: 🤖 ГЕНЕРАТОРЫ И РАНДОМ (10 шт.) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟡 средний</span>
-            <span class="price-tag">700 ₽</span>
-            <div class="block-title">📖 Книга судьбы</div>
-            <div class="interactive">
-                <button onclick="openFortuneBook()">📖 Открыть</button>
-                <span class="label" id="fortuneBookDisplay">нажми</span>
+        <section class="section" id="sec10">
+            <div class="section-title">
+                <span class="icon">🤖</span>
+                Генераторы и рандом
+                <span class="count">10</span>
             </div>
-        </div>
+            <div class="grid">
+                <div class="interactive-card"><span class="icon">🌌</span><span class="name">Генератор свиданий</span><span class="desc">Случайная идея</span></div>
+                <div class="interactive-card"><span class="icon">💋</span><span class="name">Генератор романтических жестов</span><span class="desc">«Сделай чай», «Оставь записку»</span></div>
+                <div class="interactive-card"><span class="icon">🎁</span><span class="name">Генератор подарков</span><span class="desc">Идеи по бюджету</span></div>
+                <div class="interactive-card"><span class="icon">👶</span><span class="name">Генератор имён для детей</span><span class="desc">Смешные варианты</span></div>
+                <div class="interactive-card"><span class="icon">🦸</span><span class="name">Генератор псевдонимов</span><span class="desc">Смешные прозвища</span></div>
+                <div class="interactive-card"><span class="icon">🤪</span><span class="name">Генератор оправданий</span><span class="desc">Смешные оправдания</span></div>
+                <div class="interactive-card"><span class="icon">🤖</span><span class="name">Комплименты для роботов</span><span class="desc">Смешные комплименты</span></div>
+                <div class="interactive-card"><span class="icon">🎲</span><span class="name">Генератор прозвищ</span><span class="desc">Новые прозвища каждый день</span></div>
+                <div class="interactive-card"><span class="icon">💕</span><span class="name">Калькулятор любви</span><span class="desc">Процент совместимости</span></div>
+                <div class="interactive-card"><span class="icon">🎲</span><span class="name">Кубик желаний</span><span class="desc">Брось → желание</span></div>
+            </div>
+        </section>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 13: 🟡 СРЕДНИЙ — 700 ₽ — Звёздная карта -->
+        <!-- БЛОК 11: 🎶 МУЗЫКА И ЗВУКИ (6 шт.) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🟡 средний</span>
-            <span class="price-tag">700 ₽</span>
-            <div class="block-title">⭐ Звёздная карта</div>
-            <div class="interactive">
-                <input type="date" id="birthDate" style="width:80px;padding:2px 4px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#fff;font-size:0.5rem;">
-                <button onclick="getStarSign()">⭐</button>
-                <span class="label" id="starSignDisplay">введи дату</span>
+        <section class="section" id="sec11">
+            <div class="section-title">
+                <span class="icon">🎶</span>
+                Музыка и звуки
+                <span class="count">6</span>
             </div>
-        </div>
+            <div class="grid">
+                <div class="interactive-card"><span class="icon">🎵</span><span class="name">Музыкальная открытка</span><span class="desc">Песня при открытии</span></div>
+                <div class="interactive-card"><span class="icon">🌧️</span><span class="name">Звуки природы</span><span class="desc">Шум дождя, леса, моря</span></div>
+                <div class="interactive-card"><span class="icon">🎤</span><span class="name">Караоке</span><span class="desc">Текст с подсветкой</span></div>
+                <div class="interactive-card"><span class="icon">🔊</span><span class="name">Звуки по кнопке</span><span class="desc">Поцелуй, смех, аплодисменты</span></div>
+                <div class="interactive-card"><span class="icon">💿</span><span class="name">Плейлист-капсула</span><span class="desc">Песня в определённый день</span></div>
+                <div class="interactive-card"><span class="icon">🎵</span><span class="name">Музыкальный плейлист для пары</span><span class="desc">Список песен с фактами</span></div>
+            </div>
+        </section>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 14: 🔥 СЛОЖНЫЙ — 1000 ₽ — Найди пару -->
+        <!-- БЛОК 12: 🔥 СЛОЖНЫЕ ИГРЫ (7 шт.) -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🔥 сложный</span>
-            <span class="price-tag">1000 ₽</span>
-            <div class="block-title">🧩 Найди пару</div>
-            <div class="interactive" style="display:grid; grid-template-columns:repeat(4,1fr); gap:4px; max-width:140px; margin:0 auto;">
-                <div class="memory-card" data-id="0" onclick="flipCard(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:6px 0;font-size:1.2rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);">❓</div>
-                <div class="memory-card" data-id="1" onclick="flipCard(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:6px 0;font-size:1.2rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);">❓</div>
-                <div class="memory-card" data-id="2" onclick="flipCard(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:6px 0;font-size:1.2rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);">❓</div>
-                <div class="memory-card" data-id="3" onclick="flipCard(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:6px 0;font-size:1.2rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);">❓</div>
-                <div class="memory-card" data-id="4" onclick="flipCard(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:6px 0;font-size:1.2rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);">❓</div>
-                <div class="memory-card" data-id="5" onclick="flipCard(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:6px 0;font-size:1.2rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);">❓</div>
-                <div class="memory-card" data-id="6" onclick="flipCard(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:6px 0;font-size:1.2rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);">❓</div>
-                <div class="memory-card" data-id="7" onclick="flipCard(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:6px 0;font-size:1.2rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);">❓</div>
+        <section class="section" id="sec12">
+            <div class="section-title">
+                <span class="icon">🔥</span>
+                Сложные игры
+                <span class="count">7</span>
             </div>
-            <span class="label" id="memoryStatus">найди пару</span>
-        </div>
+            <div class="grid">
+                <div class="interactive-card"><span class="icon">🐍</span><span class="name">Змейка</span><span class="desc">Классическая змейка</span></div>
+                <div class="interactive-card"><span class="icon">🧱</span><span class="name">Тетрис</span><span class="desc">Мини-тетрис для двоих</span></div>
+                <div class="interactive-card"><span class="icon">🔢</span><span class="name">2048</span><span class="desc">Соединяй плитки</span></div>
+                <div class="interactive-card"><span class="icon">🎯</span><span class="name">Кликер</span><span class="desc">Нажимай → счётчик растёт</span></div>
+                <div class="interactive-card"><span class="icon">🎯</span><span class="name">Дартс</span><span class="desc">Попади в цель</span></div>
+                <div class="interactive-card"><span class="icon">🧩</span><span class="name">Судоку</span><span class="desc">Полная версия</span></div>
+                <div class="interactive-card"><span class="icon">🎲</span><span class="name">Кости</span><span class="desc">Брось кости</span></div>
+            </div>
+        </section>
 
         <!-- ============================================================ -->
-        <!-- БЛОК 15: 🔥 СЛОЖНЫЙ — 1000 ₽ — Крестики-нолики -->
+        <!-- ФУТЕР -->
         <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🔥 сложный</span>
-            <span class="price-tag">1000 ₽</span>
-            <div class="block-title">❌⭕ Крестики-нолики</div>
-            <div class="interactive" style="display:grid; grid-template-columns:repeat(3,1fr); gap:4px; max-width:120px; margin:0 auto;">
-                <div class="tic-cell" onclick="ticTacToe(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 0;font-size:1.4rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);"> </div>
-                <div class="tic-cell" onclick="ticTacToe(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 0;font-size:1.4rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);"> </div>
-                <div class="tic-cell" onclick="ticTacToe(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 0;font-size:1.4rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);"> </div>
-                <div class="tic-cell" onclick="ticTacToe(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 0;font-size:1.4rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);"> </div>
-                <div class="tic-cell" onclick="ticTacToe(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 0;font-size:1.4rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);"> </div>
-                <div class="tic-cell" onclick="ticTacToe(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 0;font-size:1.4rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);"> </div>
-                <div class="tic-cell" onclick="ticTacToe(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 0;font-size:1.4rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);"> </div>
-                <div class="tic-cell" onclick="ticTacToe(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 0;font-size:1.4rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);"> </div>
-                <div class="tic-cell" onclick="ticTacToe(this)" style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px 0;font-size:1.4rem;cursor:pointer;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);"> </div>
-            </div>
-            <span class="label" id="ticStatus">ход ❌</span>
-            <button onclick="resetTic()" style="font-size:0.5rem;padding:2px 8px;">🔄 сброс</button>
-        </div>
-
-        <!-- ============================================================ -->
-        <!-- БЛОК 16: 🔥 СЛОЖНЫЙ — 1200 ₽ — Угадай число -->
-        <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🔥 сложный</span>
-            <span class="price-tag">1200 ₽</span>
-            <div class="block-title">🔢 Угадай число</div>
-            <div class="interactive">
-                <input type="number" id="guessInput" placeholder="1-100" style="width:50px;padding:2px 4px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#fff;font-size:0.6rem;">
-                <button onclick="makeGuess()">🔍</button>
-                <span class="label" id="guessResult">введи число</span>
-            </div>
-            <div class="interactive">
-                <span class="label" style="font-size:0.5rem;opacity:0.3;" id="guessHint">загадано число</span>
-            </div>
-        </div>
-
-        <!-- ============================================================ -->
-        <!-- БЛОК 17: 🔥 СЛОЖНЫЙ — 1200 ₽ — Составь слово -->
-        <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🔥 сложный</span>
-            <span class="price-tag">1200 ₽</span>
-            <div class="block-title">🧩 Составь слово</div>
-            <div class="interactive">
-                <span class="label" id="wordLetters" style="font-size:1.2rem;letter-spacing:4px;font-weight:bold;">Л Ю Б О В Ь</span>
-            </div>
-            <div class="interactive">
-                <input type="text" id="wordInput" placeholder="твой ответ" style="width:60px;padding:2px 4px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#fff;font-size:0.6rem;">
-                <button onclick="checkWord()">✅</button>
-                <span class="label" id="wordResult">напиши слово</span>
-            </div>
-        </div>
-
-        <!-- ============================================================ -->
-        <!-- БЛОК 18: 🔥 СЛОЖНЫЙ — 1500 ₽ — Квест для пары -->
-        <!-- ============================================================ -->
-        <div class="block">
-            <span class="complexity">🔥 сложный</span>
-            <span class="price-tag">1500 ₽</span>
-            <div class="block-title">🗺️ Квест для пары</div>
-            <div class="interactive">
-                <button onclick="nextQuestStep()">➡️ Следующий шаг</button>
-                <span class="label" id="questDisplay">начни квест</span>
-            </div>
-            <div class="interactive">
-                <span class="label" id="questStep" style="font-size:0.5rem;opacity:0.3;">шаг 0 из 5</span>
-            </div>
-        </div>
+        <footer class="footer">
+            <div class="brand">SQST <span class="heart">❤</span> Сделано с душой</div>
+            <p>© 2026 · сайты-свидания · Ульяновск</p>
+        </footer>
 
     </div>
-
-    <!-- ============================================================ -->
-    <!-- ===== СКРИПТЫ ===== -->
-    <!-- ============================================================ -->
-    <script>
-        // ================================================================
-        // БЛОК 1: Генератор свиданий (🟢 200 ₽)
-        // ================================================================
-        const dateIdeas = ['🌅 Пикник на крыше', '🎬 Кино под звёздами', '🕯️ Ужин при свечах',
-            '🚲 Прогулка на велосипедах', '🎨 Мастер-класс для двоих', '🌊 Прогулка по набережной',
-            '🎭 Поход в театр', '🎡 Колесо обозрения', '🏕️ Ночь в палатке', '🎵 Концерт любимой группы'
-        ];
-
-        function generateDate() {
-            const idea = dateIdeas[Math.floor(Math.random() * dateIdeas.length)];
-            document.getElementById('dateIdea').textContent = '✨ ' + idea;
-            document.getElementById('dateDisplay').textContent = '✅ готово!';
-            setTimeout(() => document.getElementById('dateDisplay').textContent = 'нажми', 1500);
-        }
-
-        // ================================================================
-        // БЛОК 2: 100 причин любить (🟢 200 ₽)
-        // ================================================================
-        const reasons = ['Твоя улыбка', 'Твой смех', 'Твои глаза', 'Твоя доброта', 'Твоя нежность', 'Твоя забота',
-            'Твоя поддержка', 'Твой голос', 'Твоя страсть', 'Твоя мудрость'
-        ];
-        let reasonIndex = 0;
-
-        function showReason() {
-            const reason = reasons[reasonIndex % reasons.length];
-            document.getElementById('reasonDisplay').textContent = '💖 ' + reason;
-            reasonIndex++;
-        }
-
-        // ================================================================
-        // БЛОК 3: Палитра настроения (🟢 250 ₽)
-        // ================================================================
-        function updateMoodColor(el) {
-            const color = el.value;
-            const moods = {
-                '#f5d76e': '☀️ Ты — солнечный свет!',
-                '#ff6b6b': '🔥 Ты — страсть!',
-                '#4ecdc4': '🌊 Ты — спокойствие!',
-                '#a29bfe': '✨ Ты — магия!',
-                '#fd79a8': '🌸 Ты — нежность!',
-                '#00b894': '🌿 Ты — гармония!'
-            };
-            const mood = moods[color] || '🎨 Ты — уникальна!';
-            document.getElementById('moodColorDisplay').textContent = mood;
-            document.querySelector('.block:nth-child(3)').style.borderColor = color;
-        }
-
-        // ================================================================
-        // БЛОК 4: Комплименты для роботов (🟢 250 ₽)
-        // ================================================================
-        const robotCompliments = ['🤖 Ты — лучшая из баз данных!', '🤖 Твой код — безупречен!',
-            '🤖 Ты — мой любимый алгоритм!', '🤖 Ты — идеальный процессор!', '🤖 Ты — моя основная память!'
-        ];
-
-        function robotCompliment() {
-            const text = robotCompliments[Math.floor(Math.random() * robotCompliments.length)];
-            document.getElementById('robotComplimentDisplay').textContent = text;
-        }
-
-        // ================================================================
-        // БЛОК 5: Генератор оправданий (🟢 250 ₽)
-        // ================================================================
-        const excuses = ['🦥 Я опоздал, потому что спасал панду', '🐱 Кот нажал на кнопку выключения',
-            '🧦 Я искал вторую носку час', '🌧️ Я застрял в лифте с соседом',
-            '📡 Мой GPS отправил меня в другой город', '🛸 Меня похитили инопланетяне, но я сбежал'
-        ];
-
-        function generateExcuse() {
-            const excuse = excuses[Math.floor(Math.random() * excuses.length)];
-            document.getElementById('excuseDisplay').textContent = excuse;
-        }
-
-        // ================================================================
-        // БЛОК 6: Калькулятор любви (🟢 300 ₽)
-        // ================================================================
-        function calculateLove() {
-            const name1 = document.getElementById('name1').value || 'Ты';
-            const name2 = document.getElementById('name2').value || 'Я';
-            const percent = Math.floor(Math.random() * 41 + 60);
-            const comments = ['💕 Идеальная пара!', '💗 Огонь!', '💘 Судьба!', '💖 Не разлей вода!'];
-            const comment = comments[Math.floor(Math.random() * comments.length)];
-            document.getElementById('loveResult').textContent = name1 + ' + ' + name2 + ' = ' + percent + '% ' + comment;
-        }
-
-        // ================================================================
-        // БЛОК 7: Секретный код (🟡 500 ₽)
-        // ================================================================
-        const secretCode = '1610';
-
-        function checkSecret() {
-            const input = document.getElementById('secretCode').value;
-            if (input === secretCode) {
-                document.getElementById('secretResult').textContent = '🎉 Открыто! Ты — молодец!';
-                document.getElementById('secretResult').style.color = '#f5d76e';
-            } else {
-                document.getElementById('secretResult').textContent = '❌ Неверный код';
-                document.getElementById('secretResult').style.color = '#ff6b6b';
-            }
-        }
-
-        // ================================================================
-        // БЛОК 8: Капсула времени (🟡 500 ₽)
-        // ================================================================
-        let capsuleOpened = false;
-        const capsuleDate = new Date();
-        capsuleDate.setFullYear(capsuleDate.getFullYear() + 5);
-
-        function openTimeCapsule() {
-            const now = new Date();
-            if (now >= capsuleDate) {
-                document.getElementById('capsuleDisplay').textContent = '📜 Привет из прошлого! Ты — лучшая! 💕';
-                document.getElementById('capsuleDate').textContent = '✅ капсула открыта';
-            } else {
-                const diff = Math.floor((capsuleDate - now) / (1000 * 60 * 60 * 24));
-                document.getElementById('capsuleDisplay').textContent = '⏳ Ещё рано...';
-                document.getElementById('capsuleDate').textContent = 'осталось ' + diff + ' дней';
-            }
-        }
-
-        // ================================================================
-        // БЛОК 9: Календарь поцелуев (🟡 500 ₽)
-        // ================================================================
-        let kissCount = parseInt(localStorage.getItem('kissCount') || '0');
-
-        function updateKissDisplay() {
-            document.getElementById('kissCount').textContent = kissCount;
-            const today = new Date().toLocaleDateString();
-            document.getElementById('kissDate').textContent = 'сегодня: ' + kissCount + ' поцелуев';
-        }
-
-        function addKiss() {
-            kissCount++;
-            localStorage.setItem('kissCount', String(kissCount));
-            updateKissDisplay();
-        }
-        updateKissDisplay();
-
-        // ================================================================
-        // БЛОК 10: Рулетка сюрпризов (🟡 600 ₽)
-        // ================================================================
-        const surprises = ['🎁 Билеты в кино', '💐 Букет цветов', '🍫 Коробка шоколада', '🧸 Мягкая игрушка',
-            '📖 Книга с пожеланиями', '🕯️ Вечер при свечах', '🎵 Плейлист любви', '💍 Колечко (символическое)'
-        ];
-
-        function spinSurprise() {
-            const surprise = surprises[Math.floor(Math.random() * surprises.length)];
-            document.getElementById('surpriseResult').textContent = '🎡 ' + surprise + '!';
-            const el = document.getElementById('surpriseResult');
-            el.style.transform = 'scale(0.8)';
-            setTimeout(() => el.style.transform = 'scale(1)', 300);
-        }
-
-        // ================================================================
-        // БЛОК 11: Магический шар (🟡 600 ₽)
-        // ================================================================
-        const magicAnswers = ['✅ Да!', '❌ Нет', '🤔 Возможно', '💫 Скорее всего', '🌟 Определённо!',
-            '🌙 Звёзды говорят — да', '☁️ Пока неясно', '🔥 Да, но будь осторожен'
-        ];
-
-        function askMagicBall() {
-            const question = document.getElementById('questionInput').value || 'что меня ждёт?';
-            const answer = magicAnswers[Math.floor(Math.random() * magicAnswers.length)];
-            document.getElementById('magicAnswer').textContent = '🔮 ' + answer;
-        }
-
-        // ================================================================
-        // БЛОК 12: Книга судьбы (🟡 700 ₽)
-        // ================================================================
-        const fortunePages = ['🌟 Тебя ждёт большой сюрприз', '💕 Любовь уже рядом', '✨ Твоя мечта сбудется',
-            '🎉 Жди приятных новостей', '💫 Ты на правильном пути', '🌸 Скоро случится чудо'
-        ];
-
-        function openFortuneBook() {
-            const page = fortunePages[Math.floor(Math.random() * fortunePages.length)];
-            document.getElementById('fortuneBookDisplay').textContent = '📖 ' + page;
-        }
-
-        // ================================================================
-        // БЛОК 13: Звёздная карта (🟡 700 ₽)
-        // ================================================================
-        function getStarSign() {
-            const date = document.getElementById('birthDate').value;
-            if (!date) {
-                document.getElementById('starSignDisplay').textContent = '❌ выбери дату';
-                return;
-            }
-            const signs = ['♈ Овен', '♉ Телец', '♊ Близнецы', '♋ Рак', '♌ Лев', '♍ Дева', '♎ Весы', '♏ Скорпион', '♐ Стрелец',
-                '♑ Козерог', '♒ Водолей', '♓ Рыбы'
-            ];
-            const sign = signs[Math.floor(Math.random() * signs.length)];
-            document.getElementById('starSignDisplay').textContent = '⭐ ' + sign;
-        }
-
-        // ================================================================
-        // БЛОК 14: Найди пару (🔥 1000 ₽)
-        // ================================================================
-        const memoryEmojis = ['❤️', '💕', '💗', '💖'];
-        let memoryCards = [];
-        let flippedCards = [];
-        let matchedPairs = 0;
-        let memoryLocked = false;
-
-        function initMemory() {
-            const cards = document.querySelectorAll('.memory-card');
-            const emojis = [...memoryEmojis, ...memoryEmojis];
-            for (let i = emojis.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [emojis[i], emojis[j]] = [emojis[j], emojis[i]];
-            }
-            memoryCards = emojis;
-            cards.forEach((card, idx) => {
-                card.textContent = '❓';
-                card.dataset.value = emojis[idx];
-                card.style.background = 'rgba(255,255,255,0.06)';
-                card.style.pointerEvents = 'auto';
-            });
-            flippedCards = [];
-            matchedPairs = 0;
-            memoryLocked = false;
-            document.getElementById('memoryStatus').textContent = 'найди пару';
-        }
-
-        function flipCard(el) {
-            if (memoryLocked) return;
-            if (el.textContent !== '❓') return;
-            if (flippedCards.includes(el)) return;
-
-            el.textContent = el.dataset.value;
-            el.style.background = 'rgba(255,215,0,0.1)';
-            flippedCards.push(el);
-
-            if (flippedCards.length === 2) {
-                memoryLocked = true;
-                const card1 = flippedCards[0];
-                const card2 = flippedCards[1];
-                if (card1.dataset.value === card2.dataset.value) {
-                    matchedPairs++;
-                    card1.style.background = 'rgba(255,215,0,0.2)';
-                    card2.style.background = 'rgba(255,215,0,0.2)';
-                    card1.style.pointerEvents = 'none';
-                    card2.style.pointerEvents = 'none';
-                    flippedCards = [];
-                    memoryLocked = false;
-                    document.getElementById('memoryStatus').textContent = 'найдено ' + matchedPairs + ' из 4';
-                    if (matchedPairs === 4) {
-                        document.getElementById('memoryStatus').textContent = '🎉 Победа!';
-                    }
-                } else {
-                    setTimeout(() => {
-                        card1.textContent = '❓';
-                        card2.textContent = '❓';
-                        card1.style.background = 'rgba(255,255,255,0.06)';
-                        card2.style.background = 'rgba(255,255,255,0.06)';
-                        flippedCards = [];
-                        memoryLocked = false;
-                    }, 700);
-                }
-            }
-        }
-        initMemory();
-
-        // ================================================================
-        // БЛОК 15: Крестики-нолики (🔥 1000 ₽)
-        // ================================================================
-        let ticTurn = '❌';
-        let ticBoard = ['', '', '', '', '', '', '', '', ''];
-        let ticGameOver = false;
-
-        function ticTacToe(el) {
-            if (ticGameOver) return;
-            const idx = Array.from(document.querySelectorAll('.tic-cell')).indexOf(el);
-            if (ticBoard[idx] !== '') return;
-
-            ticBoard[idx] = ticTurn;
-            el.textContent = ticTurn;
-            el.style.background = 'rgba(255,215,0,0.1)';
-
-            const winner = checkTicWinner();
-            if (winner) {
-                document.getElementById('ticStatus').textContent = '🎉 Победил ' + winner + '!';
-                ticGameOver = true;
-                return;
-            }
-            if (ticBoard.every(c => c !== '')) {
-                document.getElementById('ticStatus').textContent = '🤝 Ничья!';
-                ticGameOver = true;
-                return;
-            }
-
-            ticTurn = ticTurn === '❌' ? '⭕' : '❌';
-            document.getElementById('ticStatus').textContent = 'ход ' + ticTurn;
-
-            // бот
-            if (ticTurn === '⭕') {
-                setTimeout(() => botMove(), 500);
-            }
-        }
-
-        function checkTicWinner() {
-            const lines = [
-                [0, 1, 2],
-                [3, 4, 5],
-                [6, 7, 8],
-                [0, 3, 6],
-                [1, 4, 7],
-                [2, 5, 8],
-                [0, 4, 8],
-                [2, 4, 6]
-            ];
-            for (const line of lines) {
-                const [a, b, c] = line;
-                if (ticBoard[a] && ticBoard[a] === ticBoard[b] && ticBoard[a] === ticBoard[c]) {
-                    return ticBoard[a];
-                }
-            }
-            return null;
-        }
-
-        function botMove() {
-            if (ticGameOver) return;
-            const empty = ticBoard.map((v, i) => v === '' ? i : null).filter(v => v !== null);
-            if (empty.length === 0) return;
-            const move = empty[Math.floor(Math.random() * empty.length)];
-            const cells = document.querySelectorAll('.tic-cell');
-            ticBoard[move] = '⭕';
-            cells[move].textContent = '⭕';
-            cells[move].style.background = 'rgba(255,215,0,0.1)';
-
-            const winner = checkTicWinner();
-            if (winner) {
-                document.getElementById('ticStatus').textContent = '🎉 Победил ' + winner + '!';
-                ticGameOver = true;
-                return;
-            }
-            if (ticBoard.every(c => c !== '')) {
-                document.getElementById('ticStatus').textContent = '🤝 Ничья!';
-                ticGameOver = true;
-                return;
-            }
-            ticTurn = '❌';
-            document.getElementById('ticStatus').textContent = 'ход ' + ticTurn;
-        }
-
-        function resetTic() {
-            ticBoard = ['', '', '', '', '', '', '', '', ''];
-            ticTurn = '❌';
-            ticGameOver = false;
-            document.querySelectorAll('.tic-cell').forEach(el => {
-                el.textContent = '';
-                el.style.background = 'rgba(255,255,255,0.06)';
-            });
-            document.getElementById('ticStatus').textContent = 'ход ❌';
-        }
-
-        // ================================================================
-        // БЛОК 16: Угадай число (🔥 1200 ₽)
-        // ================================================================
-        let secretNumber = Math.floor(Math.random() * 100) + 1;
-        let guessAttempts = 0;
-
-        function makeGuess() {
-            const input = parseInt(document.getElementById('guessInput').value);
-            if (isNaN(input) || input < 1 || input > 100) {
-                document.getElementById('guessResult').textContent = '❌ от 1 до 100';
-                return;
-            }
-            guessAttempts++;
-            if (input === secretNumber) {
-                document.getElementById('guessResult').textContent = '🎉 Угадал! За ' + guessAttempts + ' попыток!';
-                document.getElementById('guessHint').textContent = '✨ загадано новое число';
-                secretNumber = Math.floor(Math.random() * 100) + 1;
-                guessAttempts = 0;
-            } else if (input < secretNumber) {
-                document.getElementById('guessResult').textContent = '📈 Больше!';
-            } else {
-                document.getElementById('guessResult').textContent = '📉 Меньше!';
-            }
-            document.getElementById('guessInput').value = '';
-        }
-
-        // ================================================================
-        // БЛОК 17: Составь слово (🔥 1200 ₽)
-        // ================================================================
-        const wordPuzzles = ['ЛЮБОВЬ', 'СЧАСТЬЕ', 'НЕЖНОСТЬ', 'РАДОСТЬ', 'ВДОХНОВЕНИЕ'];
-        let currentWord = 'ЛЮБОВЬ';
-
-        function shuffleWord() {
-            currentWord = wordPuzzles[Math.floor(Math.random() * wordPuzzles.length)];
-            const letters = currentWord.split('');
-            for (let i = letters.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [letters[i], letters[j]] = [letters[j], letters[i]];
-            }
-            document.getElementById('wordLetters').textContent = letters.join(' ');
-            document.getElementById('wordResult').textContent = 'напиши слово';
-            document.getElementById('wordInput').value = '';
-        }
-        shuffleWord();
-
-        function checkWord() {
-            const input = document.getElementById('wordInput').value.trim().toUpperCase();
-            if (input === currentWord) {
-                document.getElementById('wordResult').textContent = '🎉 Правильно!';
-                setTimeout(shuffleWord, 1500);
-            } else {
-                document.getElementById('wordResult').textContent = '❌ Попробуй ещё!';
-            }
-        }
-
-        // ================================================================
-        // БЛОК 18: Квест для пары (🔥 1500 ₽)
-        // ================================================================
-        let questStep = 0;
-        const questSteps = ['🌹 Сделай комплимент партнёру', '📸 Найди совместное фото', '💌 Напиши признание',
-            '🎵 Включи общую песню', '💕 Обними партнёра'
-        ];
-
-        function nextQuestStep() {
-            if (questStep < questSteps.length) {
-                document.getElementById('questDisplay').textContent = '📍 ' + questSteps[questStep];
-                document.getElementById('questStep').textContent = 'шаг ' + (questStep + 1) + ' из ' + questSteps.length;
-                questStep++;
-                if (questStep === questSteps.length) {
-                    document.getElementById('questDisplay').textContent = '🎉 Квест пройден! Ты — супер!';
-                    document.getElementById('questStep').textContent = '✅ завершено';
-                    questStep = 0;
-                    setTimeout(() => {
-                        document.getElementById('questDisplay').textContent = 'начни квест';
-                        document.getElementById('questStep').textContent = 'шаг 0 из ' + questSteps.length;
-                    }, 3000);
-                }
-            }
-        }
-
-        console.log('🎮 Интерактивная площадка с ценами готова!');
-    </script>
 
 </body>
 </html>
